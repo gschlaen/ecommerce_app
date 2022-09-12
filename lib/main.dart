@@ -1,12 +1,16 @@
 import 'dart:async';
 
-import 'package:ecommerce_app/src/app.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'src/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // * For more info on error handling, see:
   // * https://docs.flutter.dev/testing/errors
+  // turn off the # in the URLs on the web
+  GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
   await runZonedGuarded(() async {
     // * Entry point of the app
     runApp(const MyApp());

@@ -5,9 +5,9 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../constants/app_sizes.dart';
-import '../../../../constants/test_products.dart';
 import '../../../../localization/string_hardcoded.dart';
 import '../../../../routing/app_router.dart';
+import '../../data/fake_products_repository.dart';
 import 'product_card.dart';
 
 /// A widget that displays the list of products that match the search query.
@@ -17,7 +17,7 @@ class ProductsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: Read from data source
-    const products = kTestProducts;
+    final products = FakeProductsRepository.instance.getProductsList();
     return products.isEmpty
         ? Center(
             child: Text(

@@ -1,21 +1,22 @@
 import 'dart:math';
 
-import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../common_widgets/alert_dialogs.dart';
 import '../../../../common_widgets/custom_image.dart';
+import '../../../../common_widgets/error_message_widget.dart';
 import '../../../../common_widgets/item_quantity_selector.dart';
 import '../../../../common_widgets/responsive_two_column_layout.dart';
 import '../../../../constants/app_sizes.dart';
-import '../../../../constants/test_products.dart';
 import '../../../../localization/string_hardcoded.dart';
+import '../../../products/data/fake_products_repository.dart';
 import '../../../products/domain/product.dart';
 import '../../domain/item.dart';
 
 /// Shows a shopping cart item (or loading/error UI if needed)
-class ShoppingCartItem extends StatelessWidget {
+class ShoppingCartItem extends ConsumerWidget {
   const ShoppingCartItem({
     Key? key,
     required this.item,
@@ -31,22 +32,26 @@ class ShoppingCartItem extends StatelessWidget {
   final bool isEditable;
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: Read from data source
-    final product = FakeProductsRepository.instance.getProduct(item.productId)!;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(Sizes.p16),
-          child: ShoppingCartItemContents(
-            product: product,
-            item: item,
-            itemIndex: itemIndex,
-            isEditable: isEditable,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productValue = ref.watch(productProvider(item.productId));
+
+    return productValue.when(
+      data: (product) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(Sizes.p16),
+            child: ShoppingCartItemContents(
+              product: product!,
+              item: item,
+              itemIndex: itemIndex,
+              isEditable: isEditable,
+            ),
           ),
         ),
       ),
+      error: (e, st) => Center(child: ErrorMessageWidget(e.toString())),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }

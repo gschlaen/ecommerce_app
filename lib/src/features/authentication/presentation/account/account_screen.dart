@@ -40,6 +40,7 @@ class AccountScreen extends ConsumerWidget {
                     if (logout == true) {
                       /*final success = await*/
                       ref.read(accountScreenControllerProvider.notifier).signOut();
+                      // Now is redirected by GoRouter refreshListenable
                       // if (success) {
                       //   Navigator.of(context).pop();
                       // }

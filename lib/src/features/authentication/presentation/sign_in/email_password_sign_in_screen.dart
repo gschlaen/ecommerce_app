@@ -28,6 +28,7 @@ class EmailPasswordSignInScreen extends StatelessWidget {
       appBar: AppBar(title: Text('Sign In'.hardcoded)),
       body: EmailPasswordSignInContents(
         formType: formType,
+        // Now is redirected by GoRouter refreshListenable
         // onSignedIn: () => Navigator.of(context).pop(),
       ),
     );

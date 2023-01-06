@@ -6,7 +6,7 @@ import '../localization/string_hardcoded.dart';
 
 extension AsyncValueUI on AsyncValue {
   void showAlertDialogOnError(BuildContext context) {
-    if (!isRefreshing && hasError) {
+    if (!isLoading && hasError) {
       showExceptionAlertDialog(
         context: context,
         title: 'Error'.hardcoded,

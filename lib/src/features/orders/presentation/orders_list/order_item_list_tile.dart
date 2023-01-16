@@ -10,7 +10,7 @@ import '../../../products/data/fake_products_repository.dart';
 
 /// Shows an individual order item, including price and quantity.
 class OrderItemListTile extends ConsumerWidget {
-  const OrderItemListTile({Key? key, required this.item}) : super(key: key);
+  const OrderItemListTile({super.key, required this.item});
   final Item item;
 
   @override

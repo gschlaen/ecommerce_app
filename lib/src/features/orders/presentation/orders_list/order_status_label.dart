@@ -5,7 +5,7 @@ import '../../domain/order.dart';
 
 /// Shows the status of the order
 class OrderStatusLabel extends StatelessWidget {
-  const OrderStatusLabel({Key? key, required this.order}) : super(key: key);
+  const OrderStatusLabel({super.key, required this.order});
   final Order order;
 
   @override

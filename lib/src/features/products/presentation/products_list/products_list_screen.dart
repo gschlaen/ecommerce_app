@@ -8,7 +8,7 @@ import 'products_search_text_field.dart';
 
 /// Shows the list of products with a search field at the top.
 class ProductsListScreen extends StatefulWidget {
-  const ProductsListScreen({Key? key}) : super(key: key);
+  const ProductsListScreen({super.key});
 
   @override
   State<ProductsListScreen> createState() => _ProductsListScreenState();

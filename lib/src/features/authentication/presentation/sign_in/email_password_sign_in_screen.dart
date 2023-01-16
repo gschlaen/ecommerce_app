@@ -16,7 +16,7 @@ import 'string_validators.dart';
 /// Wraps the [EmailPasswordSignInContents] widget below with a [Scaffold] and
 /// [AppBar] with a title.
 class EmailPasswordSignInScreen extends StatelessWidget {
-  const EmailPasswordSignInScreen({Key? key, required this.formType}) : super(key: key);
+  const EmailPasswordSignInScreen({super.key, required this.formType});
   final EmailPasswordSignInFormType formType;
 
   static const emailKey = Key('email');
@@ -40,10 +40,10 @@ class EmailPasswordSignInScreen extends StatelessWidget {
 /// - register (create an account)
 class EmailPasswordSignInContents extends ConsumerStatefulWidget {
   const EmailPasswordSignInContents({
-    Key? key,
+    super.key,
     this.onSignedIn,
     required this.formType,
-  }) : super(key: key);
+  });
   final VoidCallback? onSignedIn;
 
   /// The default form type to use.

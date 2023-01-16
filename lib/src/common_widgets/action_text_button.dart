@@ -1,9 +1,11 @@
+// ignore_for_file: sort_child_properties_last
+
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 
 /// Text button to be used as an [AppBar] action
 class ActionTextButton extends StatelessWidget {
-  const ActionTextButton({Key? key, required this.text, this.onPressed}) : super(key: key);
+  const ActionTextButton({super.key, required this.text, this.onPressed});
   final String text;
   final VoidCallback? onPressed;
   @override

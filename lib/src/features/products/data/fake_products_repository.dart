@@ -42,7 +42,8 @@ class FakeProductsRepository {
 }
 
 final productRepositoryProvider = Provider<FakeProductsRepository>((ref) {
-  return FakeProductsRepository();
+  // * Set addDelay to false for faster loading
+  return FakeProductsRepository(addDelay: false);
 });
 
 final productsListStreamProvider = StreamProvider.autoDispose<List<Product>>((ref) {

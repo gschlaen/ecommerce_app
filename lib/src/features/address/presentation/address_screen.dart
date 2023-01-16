@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
@@ -7,7 +9,7 @@ import 'package:ecommerce_app/src/constants/app_sizes.dart';
 /// A page where the user can enter and submit all the address details.
 /// * This page is not yet in use. We will add it to the checkout flows later.
 class AddressScreen extends StatefulWidget {
-  const AddressScreen({Key? key, this.onSubmit}) : super(key: key);
+  const AddressScreen({super.key, this.onSubmit});
   final VoidCallback? onSubmit;
 
   // * Keys for testing using find.byKey()
@@ -124,13 +126,13 @@ class _AddressPageState extends State<AddressScreen> {
 // Reusable address form field
 class AddressFormField extends StatelessWidget {
   const AddressFormField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.labelText,
     this.keyboardType,
     this.enabled = true,
     this.formFieldKey,
-  }) : super(key: key);
+  });
 
   /// Controller used to read out the value in the parent widget
   final TextEditingController controller;

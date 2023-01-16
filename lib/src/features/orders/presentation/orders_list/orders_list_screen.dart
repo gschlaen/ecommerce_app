@@ -8,7 +8,7 @@ import 'order_card.dart';
 
 /// Shows the list of orders placed by the signed-in user.
 class OrdersListScreen extends StatelessWidget {
-  const OrdersListScreen({Key? key}) : super(key: key);
+  const OrdersListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

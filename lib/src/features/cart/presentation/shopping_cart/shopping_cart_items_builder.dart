@@ -12,11 +12,11 @@ import '../cart_total/cart_total_with_cta.dart';
 /// Responsive widget showing the cart items and the checkout button
 class ShoppingCartItemsBuilder extends StatelessWidget {
   const ShoppingCartItemsBuilder({
-    Key? key,
+    super.key,
     required this.items,
     required this.itemBuilder,
     required this.ctaBuilder,
-  }) : super(key: key);
+  });
   final List<Item> items;
   final Widget Function(BuildContext, Item, int) itemBuilder;
   final WidgetBuilder ctaBuilder;

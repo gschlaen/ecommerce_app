@@ -5,7 +5,7 @@ import 'cart_total_text.dart';
 
 /// Widget for showing the shopping cart total with a checkout button
 class CartTotalWithCTA extends StatelessWidget {
-  const CartTotalWithCTA({Key? key, required this.ctaBuilder}) : super(key: key);
+  const CartTotalWithCTA({super.key, required this.ctaBuilder});
   final WidgetBuilder ctaBuilder;
 
   @override

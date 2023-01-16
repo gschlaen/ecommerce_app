@@ -5,7 +5,7 @@ import 'localization/string_hardcoded.dart';
 import 'routing/app_router.dart';
 
 class MyApp extends ConsumerWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,8 +25,8 @@ class MyApp extends ConsumerWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            primary: Colors.black, // background (button) color
-            onPrimary: Colors.white, // foreground (text) color
+            backgroundColor: Colors.black, // background (button) color
+            foregroundColor: Colors.white, // foreground (text) color
           ),
         ),
       ),

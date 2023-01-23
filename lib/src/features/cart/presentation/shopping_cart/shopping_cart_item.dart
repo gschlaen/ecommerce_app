@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:ecommerce_app/src/features/cart/presentation/shopping_cart/shopping_cart_screen_controller.dart';
+
 import '../../../../common_widgets/alert_dialogs.dart';
 import '../../../../common_widgets/async_value_widget.dart';
 import '../../../products/data/fake_products_repository.dart';
@@ -72,8 +74,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final priceFormatted =
-        ref.watch(currencyFormatterProvider).format(product.price);
+    final priceFormatted = ref.watch(currencyFormatterProvider).format(product.price);
     return ResponsiveTwoColumnLayout(
       startFlex: 1,
       endFlex: 2,
@@ -124,6 +125,7 @@ class EditOrRemoveItemWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(shoppingCartScreenControllerProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -131,18 +133,20 @@ class EditOrRemoveItemWidget extends ConsumerWidget {
           quantity: item.quantity,
           maxQuantity: min(product.availableQuantity, 10),
           itemIndex: itemIndex,
-          // TODO: Implement onChanged
-          onChanged: (value) {
-            showNotImplementedAlertDialog(context: context);
-          },
+          onChanged: state.isLoading
+              ? null
+              : (quantity) => {
+                    ref.read(shoppingCartScreenControllerProvider.notifier).updateItemQuantity(item.productId, quantity),
+                  },
         ),
         IconButton(
           key: deleteKey(itemIndex),
           icon: Icon(Icons.delete, color: Colors.red[700]),
-          // TODO: Implement onPressed
-          onPressed: () {
-            showNotImplementedAlertDialog(context: context);
-          },
+          onPressed: state.isLoading
+              ? null
+              : () => {
+                    ref.read(shoppingCartScreenControllerProvider.notifier).removeItemById(item.productId),
+                  },
         ),
         const Spacer(),
       ],

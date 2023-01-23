@@ -31,7 +31,7 @@ void main() {
       authRepositoryProvider.overrideWithValue(authRepository),
       remoteCartRepositoryProvider.overrideWithValue(remoteCartRepository),
       localCartRepositoryProvider.overrideWithValue(localCartRepository),
-      productRepositoryProvider.overrideWithValue(productsRepository)
+      productsRepositoryProvider.overrideWithValue(productsRepository)
     ]);
     addTearDown(container.dispose);
     return container.read(cartSyncServiceProvider);

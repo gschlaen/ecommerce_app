@@ -12,8 +12,10 @@ void main() {
       required Stream<Cart> cart,
       required Stream<List<Product>> products,
     }) {
-      final container = ProviderContainer(
-          overrides: [cartProvider.overrideWith((ref) => cart), productsListStreamProvider.overrideWith((ref) => products)]);
+      final container = ProviderContainer(overrides: [
+        cartProvider.overrideWith((ref) => cart),
+        productsListStreamProvider.overrideWith((ref) => products),
+      ]);
       addTearDown(container.dispose);
       return container;
     }

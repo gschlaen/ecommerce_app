@@ -53,7 +53,7 @@ class CartSyncService {
 
   Future<List<Item>> _getLocalItemsToAdd(Cart localCart, Cart remoteCart) async {
     // Get the list of products (needed to read the available quantities)
-    final productRepository = ref.read(productRepositoryProvider);
+    final productRepository = ref.read(productsRepositoryProvider);
     final products = await productRepository.fetchProductsList();
     // Figure out which items need to be added
     final localItemsToAdd = <Item>[];

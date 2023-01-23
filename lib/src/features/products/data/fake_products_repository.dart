@@ -41,22 +41,22 @@ class FakeProductsRepository {
   }
 }
 
-final productRepositoryProvider = Provider<FakeProductsRepository>((ref) {
+final productsRepositoryProvider = Provider<FakeProductsRepository>((ref) {
   // * Set addDelay to false for faster loading
   return FakeProductsRepository(addDelay: false);
 });
 
 final productsListStreamProvider = StreamProvider.autoDispose<List<Product>>((ref) {
-  final productRepository = ref.watch(productRepositoryProvider);
+  final productRepository = ref.watch(productsRepositoryProvider);
   return productRepository.watchProductsList();
 });
 
 final productsListFutureProvider = FutureProvider.autoDispose<List<Product>>((ref) {
-  final productRepository = ref.watch(productRepositoryProvider);
+  final productRepository = ref.watch(productsRepositoryProvider);
   return productRepository.fetchProductsList();
 });
 
 final productProvider = StreamProvider.autoDispose.family<Product?, String>((ref, id) {
-  final productRepository = ref.watch(productRepositoryProvider);
+  final productRepository = ref.watch(productsRepositoryProvider);
   return productRepository.watchProduct(id);
 });

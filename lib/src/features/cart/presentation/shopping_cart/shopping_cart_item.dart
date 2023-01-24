@@ -1,20 +1,19 @@
 import 'dart:math';
 
-import 'package:ecommerce_app/src/features/cart/presentation/shopping_cart/shopping_cart_screen_controller.dart';
-
-import '../../../../common_widgets/alert_dialogs.dart';
-import '../../../../common_widgets/async_value_widget.dart';
-import '../../../products/data/fake_products_repository.dart';
-import '../../../../localization/string_hardcoded.dart';
-import '../../../../utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../common_widgets/custom_image.dart';
 import '../../../../common_widgets/item_quantity_selector.dart';
 import '../../../../common_widgets/responsive_two_column_layout.dart';
 import '../../../../constants/app_sizes.dart';
-import '../../domain/item.dart';
+import '../../../../localization/string_hardcoded.dart';
+import '../../../../utils/currency_formatter.dart';
+import '../../../products/data/fake_products_repository.dart';
 import '../../../products/domain/product.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../domain/item.dart';
+import 'shopping_cart_screen_controller.dart';
 
 /// Shows a shopping cart item (or loading/error UI if needed)
 class ShoppingCartItem extends ConsumerWidget {

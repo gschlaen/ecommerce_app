@@ -1,7 +1,7 @@
-import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_repository.dart';
-import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
-import 'package:ecommerce_app/src/utils/delay.dart';
-import 'package:ecommerce_app/src/utils/in_memory_store.dart';
+import '../../../../utils/delay.dart';
+import '../../../../utils/in_memory_store.dart';
+import '../../domain/cart.dart';
+import 'remote_cart_repository.dart';
 
 class FakeRemoteCartRepository implements RemoteCartRepository {
   FakeRemoteCartRepository({this.addDelay = true});

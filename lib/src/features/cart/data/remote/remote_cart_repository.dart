@@ -1,6 +1,7 @@
-import 'package:ecommerce_app/src/features/cart/data/remote/fake_remote_cart_repository.dart';
-import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../domain/cart.dart';
+import 'fake_remote_cart_repository.dart';
 
 /// API for reading, watching and writing cart data for a specific user ID
 abstract class RemoteCartRepository {
@@ -13,5 +14,5 @@ abstract class RemoteCartRepository {
 
 final remoteCartRepositoryProvider = Provider<RemoteCartRepository>((ref) {
   // TODO: replace with "real" remote cart repository
-  return FakeRemoteCartRepository();
+  return FakeRemoteCartRepository(addDelay: false);
 });

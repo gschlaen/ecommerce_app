@@ -26,7 +26,7 @@ void main() {
         formType: EmailPasswordSignInFormType.signIn,
       );
       await r.tapEmailAndPasswordSubmitButton();
-      verifyNever(() => authRepository.signInWhithEmailAndPassword(
+      verifyNever(() => authRepository.signInWithEmailAndPassword(
             any(),
             any(),
           ));
@@ -43,7 +43,7 @@ void main() {
         (tester) async {
       var didSignIn = false;
       final r = AuthRobot(tester);
-      when(() => authRepository.signInWhithEmailAndPassword(
+      when(() => authRepository.signInWithEmailAndPassword(
             testEmail,
             testPassword,
           )).thenAnswer((_) => Future.value());
@@ -55,7 +55,7 @@ void main() {
       await r.enterEmail(testEmail);
       await r.enterPassword(testPassword);
       await r.tapEmailAndPasswordSubmitButton();
-      verify(() => authRepository.signInWhithEmailAndPassword(
+      verify(() => authRepository.signInWithEmailAndPassword(
             testEmail,
             testPassword,
           )).called(1);

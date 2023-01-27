@@ -22,7 +22,7 @@ void main() {
       () async {
         // setup
         final authRepository = MockAuthRepository();
-        when(() => authRepository.signInWhithEmailAndPassword(testEmail, testPassword)).thenAnswer((_) => Future.value());
+        when(() => authRepository.signInWithEmailAndPassword(testEmail, testPassword)).thenAnswer((_) => Future.value());
         final controller = EmailPasswordSignInController(
           authRepository: authRepository,
           formType: EmailPasswordSignInFormType.signIn,
@@ -59,7 +59,7 @@ void main() {
         // setup
         final authRepository = MockAuthRepository();
         final exception = Exception('Connection failed');
-        when(() => authRepository.signInWhithEmailAndPassword(testEmail, testPassword)).thenThrow(exception);
+        when(() => authRepository.signInWithEmailAndPassword(testEmail, testPassword)).thenThrow(exception);
         final controller = EmailPasswordSignInController(
           authRepository: authRepository,
           formType: EmailPasswordSignInFormType.signIn,

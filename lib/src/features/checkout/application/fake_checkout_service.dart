@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../localization/string_hardcoded.dart';
 import '../../authentication/data/fake_auth_repository.dart';
 import '../../cart/data/remote/remote_cart_repository.dart';
 import '../../cart/domain/cart.dart';
@@ -49,7 +50,7 @@ class FakeCheckoutService {
       // 4. Empty the cart
       await remoteCartRepository.setCart(uid, const Cart());
     } else {
-      throw StateError('Can\'t place an order if the cart is empty');
+      throw StateError('Can\'t place an order if the cart is empty'.hardcoded);
     }
   }
 

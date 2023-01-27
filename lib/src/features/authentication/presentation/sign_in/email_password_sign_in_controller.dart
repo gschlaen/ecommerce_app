@@ -20,7 +20,7 @@ class EmailPasswordSignInController extends StateNotifier<EmailPasswordSignInSta
   Future<void> _authenticate(String email, String password) {
     switch (state.formType) {
       case EmailPasswordSignInFormType.signIn:
-        return authRepository.signInWhithEmailAndPassword(email, password);
+        return authRepository.signInWithEmailAndPassword(email, password);
       case EmailPasswordSignInFormType.register:
         return authRepository.createUserWithEmailAndPassword(email, password);
     }

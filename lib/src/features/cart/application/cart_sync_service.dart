@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ecommerce_app/src/exceptions/error_logger.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,8 +47,8 @@ class CartSyncService {
         // remove all items from the local cart
         await localCartRepository.setCart(const Cart());
       }
-    } catch (e) {
-      // TODO: Handle error and/or rethrow
+    } catch (e, st) {
+      ref.read(errorLoggerProvider).logError(e, st);
     }
   }
 

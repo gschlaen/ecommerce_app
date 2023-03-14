@@ -11,7 +11,7 @@ import '../features/checkout/presentation/checkout_screen/checkout_screen.dart';
 import '../features/orders/presentation/orders_list/orders_list_screen.dart';
 import '../features/products/presentation/product_screen/product_screen.dart';
 import '../features/products/presentation/products_list/products_list_screen.dart';
-import '../features/reviews/presentation/leave_review_page/leave_review_screen.dart';
+import '../features/reviews/presentation/leave_review_screen/leave_review_screen.dart';
 import 'go_router_refresh_stream.dart';
 import 'not_found_screen.dart';
 

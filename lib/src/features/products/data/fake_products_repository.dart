@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constants/test_products.dart';
+import '../../../localization/string_hardcoded.dart';
 import '../../../utils/delay.dart';
 import '../../../utils/in_memory_store.dart';
 import '../domain/product.dart';
@@ -33,18 +34,23 @@ class FakeProductsRepository {
     return watchProductsList().map((products) => _getProduct(products, id));
   }
 
-  /// Update product or add a new one
-  Future<void> setProduct(Product product) async {
+  /// Updat product rating
+  Future<void> updateProductRating({
+    required ProductID productId,
+    required double avgRating,
+    required int numRatings,
+  }) async {
     await delay(addDelay);
     final products = _products.value;
-    final index = products.indexWhere((p) => p.id == product.id);
+    final index = products.indexWhere((item) => item.id == productId);
     if (index == -1) {
-      // if not found, add as a new product
-      products.add(product);
-    } else {
-      // else, overwrite previous product
-      products[index] = product;
+      // if not found throw error
+      throw StateError('Product not found (id: $productId)'.hardcoded);
     }
+    products[index] = products[index].copyWith(
+      avgRating: avgRating,
+      numRatings: numRatings,
+    );
     _products.value = products;
   }
 

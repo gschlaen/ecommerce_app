@@ -63,8 +63,10 @@ void main() {
       when(() => productsRepository.getProduct(testProductId)).thenReturn(
         kTestProducts[0],
       );
-      when(() => productsRepository.setProduct(
-            kTestProducts[0],
+      when(() => productsRepository.updateProductRating(
+            productId: kTestProducts[0].id,
+            avgRating: kTestProducts[0].avgRating,
+            numRatings: kTestProducts[0].numRatings,
           )).thenAnswer((_) => Future.value());
       final reviewsService = makeReviewsService();
       // run

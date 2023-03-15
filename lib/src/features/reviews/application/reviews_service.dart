@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../localization/string_hardcoded.dart';
 import '../../authentication/data/fake_auth_repository.dart';
+import '../../products/data/fake_products_repository.dart';
 import '../../products/domain/product.dart';
 import '../data/fake_reviews_repository.dart';
 import '../domain/review.dart';
@@ -25,6 +26,36 @@ class ReviewsService {
           uid: user.uid,
           review: review,
         );
+    // * Note: this should be done on the backend
+    // * At this stage the review is already submitted
+    // * and we don't need to await for the product rating to also be updated
+    _updateProductRating(productId);
+  }
+
+  Future<void> _updateProductRating(ProductID productId) async {
+    final reviews = await ref.read(reviewsRepositoryProvider).fetchReviews(productId);
+    final avgRating = _avgReviewScore(reviews);
+    final product = ref.read(productsRepositoryProvider).getProduct(productId);
+    if (product == null) {
+      throw StateError('Product not found with id: $productId.'.hardcoded);
+    }
+    final updated = product.copyWith(
+      avgRating: avgRating,
+      numRatings: reviews.length,
+    );
+    await ref.read(productsRepositoryProvider).setProduct(updated);
+  }
+
+  double _avgReviewScore(List<Review> reviews) {
+    if (reviews.isNotEmpty) {
+      var total = 0.0;
+      for (var review in reviews) {
+        total += review.rating;
+      }
+      return total / reviews.length;
+    } else {
+      return 0.0;
+    }
   }
 }
 

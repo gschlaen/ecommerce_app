@@ -1,15 +1,19 @@
+import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
+import 'package:ecommerce_app/src/features/reviews/application/reviews_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../../common_widgets/alert_dialogs.dart';
 import '../../../../common_widgets/primary_button.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/breakpoints.dart';
 import '../../../../localization/string_hardcoded.dart';
+import '../../../../utils/async_value_ui.dart';
 import '../../../products/domain/product.dart';
 import '../../domain/review.dart';
 import '../product_reviews/product_rating_bar.dart';
+import 'leave_review_controller.dart';
 
 class LeaveReviewScreen extends StatelessWidget {
   const LeaveReviewScreen({super.key, required this.productId});
@@ -17,8 +21,6 @@ class LeaveReviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Read from data source
-    const review = null;
     return Scaffold(
       appBar: AppBar(
         title: Text('Leave a review'.hardcoded),
@@ -26,7 +28,15 @@ class LeaveReviewScreen extends StatelessWidget {
       body: ResponsiveCenter(
         maxContentWidth: Breakpoint.tablet,
         padding: const EdgeInsets.all(Sizes.p16),
-        child: LeaveReviewForm(productId: productId, review: review),
+        child: Consumer(
+          builder: (context, ref, child) {
+            final reviewValue = ref.watch(userReviewFutureProvider(productId));
+            return AsyncValueWidget<Review?>(
+              value: reviewValue,
+              data: (review) => LeaveReviewForm(productId: productId, review: review),
+            );
+          },
+        ),
       ),
     );
   }
@@ -51,11 +61,20 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
   @override
   void initState() {
     super.initState();
-    // TODO: Initialize state
+    final review = widget.review;
+    if (review != null) {
+      _controller.text = review.comment;
+      _rating = review.rating;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue>(
+      leaveReviewControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
+    final state = ref.watch(leaveReviewControllerProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -86,12 +105,16 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
         gapH32,
         PrimaryButton(
           text: 'Submit'.hardcoded,
-          // TODO: Loading state
-          isLoading: false,
-          onPressed: _rating == 0
+          isLoading: state.isLoading,
+          onPressed: state.isLoading || _rating == 0
               ? null
-              // TODO: submit review
-              : () => showNotImplementedAlertDialog(context: context),
+              : () => ref.read(leaveReviewControllerProvider.notifier).submitReview(
+                    previousReview: widget.review,
+                    productId: widget.productId,
+                    rating: _rating,
+                    comment: _controller.text,
+                    onSuccess: context.pop,
+                  ),
         )
       ],
     );

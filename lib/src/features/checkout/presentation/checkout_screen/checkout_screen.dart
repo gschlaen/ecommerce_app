@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../localization/string_hardcoded.dart';
 import '../../../authentication/data/fake_auth_repository.dart';
+import '../../../authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
 import '../../../authentication/presentation/sign_in/email_password_sign_in_screen.dart';
-import '../../../authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import '../payment/payment_page.dart';
 
 /// The two sub-routes that are presented as part of the checkout flow.

@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import 'app_exception.dart';
 import 'error_logger.dart';
 
@@ -29,9 +28,7 @@ class AsyncErrorLogger extends ProviderObserver {
 }
 
 AsyncError<dynamic>? _findError(Object? value) {
-  if (value is EmailPasswordSignInState && value.value is AsyncError) {
-    return value.value as AsyncError;
-  } else if (value is AsyncError) {
+  if (value is AsyncError) {
     return value;
   } else {
     return null;

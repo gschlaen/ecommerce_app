@@ -102,13 +102,12 @@ final productsListSearchProvider = FutureProvider.autoDispose.family<List<Produc
   // ref.onDispose(() => debugPrint('disposed: $query'));
   // ref.onCancel(() => debugPrint('cancel: $query'));
 
-  // Maintain results in cache for 5 sec. Then run autoDispose
   final link = ref.keepAlive();
-  Timer(
-    const Duration(seconds: 5),
-    () => link.close(),
-  );
-
+  // * keep previous search results in memory for 60 seconds
+  final timer = Timer(const Duration(seconds: 60), () {
+    link.close();
+  });
+  ref.onDispose(() => timer.cancel());
   // await Future.delayed(const Duration(milliseconds: 500));
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.searchProducts(query);

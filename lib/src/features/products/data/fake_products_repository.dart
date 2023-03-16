@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constants/test_products.dart';
@@ -54,6 +56,19 @@ class FakeProductsRepository {
     _products.value = products;
   }
 
+  /// Search for products where the title contains the search query
+  Future<List<Product>> searchProducts(String query) async {
+    assert(
+      _products.value.length <= 100,
+      'Client-side search should only be performed if the number of products is small. '
+      'Consider doing server-side search for larger datasets.',
+    );
+    // Get all products
+    final productsList = await fetchProductsList();
+    // Match all products where the title contains the query
+    return productsList.where((product) => product.title.toLowerCase().contains(query.toLowerCase())).toList();
+  }
+
   static Product? _getProduct(List<Product> products, String id) {
     try {
       return products.firstWhere((product) => product.id == id);
@@ -81,4 +96,20 @@ final productsListFutureProvider = FutureProvider.autoDispose<List<Product>>((re
 final productProvider = StreamProvider.autoDispose.family<Product?, String>((ref, id) {
   final productRepository = ref.watch(productsRepositoryProvider);
   return productRepository.watchProduct(id);
+});
+
+final productsListSearchProvider = FutureProvider.autoDispose.family<List<Product>, String>((ref, query) async {
+  // ref.onDispose(() => debugPrint('disposed: $query'));
+  // ref.onCancel(() => debugPrint('cancel: $query'));
+
+  // Maintain results in cache for 5 sec. Then run autoDispose
+  final link = ref.keepAlive();
+  Timer(
+    const Duration(seconds: 5),
+    () => link.close(),
+  );
+
+  // await Future.delayed(const Duration(milliseconds: 500));
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  return productsRepository.searchProducts(query);
 });

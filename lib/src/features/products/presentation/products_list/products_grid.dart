@@ -9,9 +9,9 @@ import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../localization/string_hardcoded.dart';
 import '../../../../routing/app_router.dart';
-import '../../data/fake_products_repository.dart';
 import '../../domain/product.dart';
 import 'product_card.dart';
+import 'products_search_state_provider.dart';
 
 /// A widget that displays the list of products that match the search query.
 class ProductsGrid extends ConsumerWidget {
@@ -19,7 +19,7 @@ class ProductsGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productsListValue = ref.watch(productsListStreamProvider);
+    final productsListValue = ref.watch(productsSearchResultsProvider);
     return AsyncValueWidget<List<Product>>(
       value: productsListValue,
       data: (products) => products.isEmpty

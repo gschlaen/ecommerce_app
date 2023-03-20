@@ -1,19 +1,19 @@
-import 'package:ecommerce_app/src/utils/current_date_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../utils/current_date_provider.dart';
 import '../../../products/domain/product.dart';
 import '../../application/reviews_service.dart';
 import '../../domain/review.dart';
 
-class LeaveReviewController extends StateNotifier<AsyncValue<void>> {
-  LeaveReviewController({
-    required this.reviewsService,
-    required this.currentDateBuilder,
-  }) : super(const AsyncData(null));
+part 'leave_review_controller.g.dart';
 
-  final ReviewsService reviewsService;
-  // * this is injected so we can easily mock the date in the test
-  final DateTime Function() currentDateBuilder;
+@riverpod
+class LeaveReviewController extends _$LeaveReviewController {
+  bool mounted = true;
+  @override
+  FutureOr build() {
+    ref.onDispose(() => mounted = false);
+  }
 
   Future<void> submitReview({
     Review? previousReview,
@@ -24,11 +24,14 @@ class LeaveReviewController extends StateNotifier<AsyncValue<void>> {
   }) async {
     // * only submit if the review is new or it has changed
     if (previousReview == null || rating != previousReview.rating || comment != previousReview.comment) {
+      final currentDateBuilder = ref.read(currentDateBuilderProvider);
+      final reviewsService = ref.read(reviewsServiceProvider);
       final review = Review(
         rating: rating,
         comment: comment,
         date: currentDateBuilder(),
       );
+
       state = const AsyncLoading();
       final newState = await AsyncValue.guard(() => reviewsService.submitReview(productId: productId, review: review));
       if (mounted) {
@@ -43,10 +46,3 @@ class LeaveReviewController extends StateNotifier<AsyncValue<void>> {
     }
   }
 }
-
-final leaveReviewControllerProvider = StateNotifierProvider.autoDispose<LeaveReviewController, AsyncValue<void>>((ref) {
-  return LeaveReviewController(
-    reviewsService: ref.watch(reviewsServiceProvider),
-    currentDateBuilder: ref.watch(currentDateBuilderProvider),
-  );
-});

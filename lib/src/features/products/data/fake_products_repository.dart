@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../constants/test_products.dart';
 import '../../../localization/string_hardcoded.dart';
 import '../../../utils/delay.dart';
 import '../../../utils/in_memory_store.dart';
 import '../domain/product.dart';
+
+part 'fake_products_repository.g.dart';
 
 class FakeProductsRepository {
   FakeProductsRepository({this.addDelay = true});
@@ -78,27 +81,30 @@ class FakeProductsRepository {
   }
 }
 
-final productsRepositoryProvider = Provider<FakeProductsRepository>((ref) {
+@riverpod
+FakeProductsRepository productsRepository(ProductsRepositoryRef ref) {
   // * Set addDelay to false for faster loading
   return FakeProductsRepository(addDelay: false);
-});
+}
 
 final productsListStreamProvider = StreamProvider.autoDispose<List<Product>>((ref) {
   final productRepository = ref.watch(productsRepositoryProvider);
   return productRepository.watchProductsList();
 });
 
-final productsListFutureProvider = FutureProvider.autoDispose<List<Product>>((ref) {
+@riverpod
+Future<List<Product>> productsListFuture(ProductsListFutureRef ref) {
   final productRepository = ref.watch(productsRepositoryProvider);
   return productRepository.fetchProductsList();
-});
+}
 
 final productProvider = StreamProvider.autoDispose.family<Product?, String>((ref, id) {
   final productRepository = ref.watch(productsRepositoryProvider);
   return productRepository.watchProduct(id);
 });
 
-final productsListSearchProvider = FutureProvider.autoDispose.family<List<Product>, String>((ref, query) async {
+@riverpod
+Future<List<Product>> productsListSearch(ProductsListSearchRef ref, String query) async {
   // ref.onDispose(() => debugPrint('disposed: $query'));
   // ref.onCancel(() => debugPrint('cancel: $query'));
 
@@ -111,4 +117,4 @@ final productsListSearchProvider = FutureProvider.autoDispose.family<List<Produc
   // await Future.delayed(const Duration(milliseconds: 500));
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.searchProducts(query);
-});
+}

@@ -1,9 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../utils/delay.dart';
 import '../../../utils/in_memory_store.dart';
 import '../../products/domain/product.dart';
 import '../domain/review.dart';
+
+part 'fake_reviews_repository.g.dart';
 
 /// A repository used to store all user reviews for all products
 class FakeReviewsRepository {
@@ -79,9 +82,10 @@ class FakeReviewsRepository {
   }
 }
 
-final reviewsRepositoryProvider = Provider<FakeReviewsRepository>((ref) {
+@Riverpod(keepAlive: true)
+FakeReviewsRepository reviewsRepository(ReviewsRepositoryRef ref) {
   return FakeReviewsRepository();
-});
+}
 
 final productReviewsProvider = StreamProvider.autoDispose.family<List<Review>, ProductID>((ref, productId) {
   return ref.watch(reviewsRepositoryProvider).watchReviews(productId);

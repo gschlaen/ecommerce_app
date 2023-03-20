@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/foundation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'app_exception.dart';
+
+part 'error_logger.g.dart';
 
 class ErrorLogger {
   void logError(Object error, StackTrace? stackTrace) {
@@ -15,6 +17,7 @@ class ErrorLogger {
   }
 }
 
-final errorLoggerProvider = Provider<ErrorLogger>((ref) {
+@riverpod
+ErrorLogger errorLogger(ErrorLoggerRef ref) {
   return ErrorLogger();
-});
+}

@@ -1,16 +1,19 @@
 import 'dart:math';
 
-import 'package:ecommerce_app/src/exceptions/error_logger.dart';
-import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../exceptions/error_logger.dart';
 import '../../authentication/data/fake_auth_repository.dart';
 import '../../authentication/domain/app_user.dart';
+import '../../products/data/fake_products_repository.dart';
 import '../data/local/local_cart_repository.dart';
 import '../data/remote/remote_cart_repository.dart';
 import '../domain/cart.dart';
 import '../domain/item.dart';
 import '../domain/mutable_cart.dart';
+
+part 'cart_sync_service.g.dart';
 
 class CartSyncService {
   CartSyncService(this.ref) {
@@ -76,6 +79,7 @@ class CartSyncService {
   }
 }
 
-final cartSyncServiceProvider = Provider<CartSyncService>((ref) {
+@Riverpod(keepAlive: true)
+CartSyncService cartSyncService(CartSyncServiceRef ref) {
   return CartSyncService(ref);
-});
+}

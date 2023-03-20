@@ -1,11 +1,13 @@
-import 'package:ecommerce_app/src/exceptions/app_exception.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../localization/string_hardcoded.dart';
+import '../../../exceptions/app_exception.dart';
 import '../../../utils/delay.dart';
 import '../../../utils/in_memory_store.dart';
 import '../domain/app_user.dart';
 import '../domain/fake_app_user.dart';
+
+part 'fake_auth_repository.g.dart';
 
 class FakeAuthRepository {
   FakeAuthRepository({this.addDelay = true});
@@ -71,11 +73,12 @@ class FakeAuthRepository {
   }
 }
 
-final authRepositoryProvider = Provider<FakeAuthRepository>((ref) {
+@Riverpod(keepAlive: true)
+FakeAuthRepository authRepository(AuthRepositoryRef ref) {
   final auth = FakeAuthRepository();
   ref.onDispose(() => auth.dispose());
   return auth;
-});
+}
 
 final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);

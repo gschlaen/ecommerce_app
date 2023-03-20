@@ -57,7 +57,8 @@ mixin _$AppException {
     required TResult Function(WrongPassword value) wrongPassword,
     required TResult Function(UserNotFound value) userNotFound,
     required TResult Function(CartSyncFailed value) cartSyncFailed,
-    required TResult Function(PaymentFailureEmptyCart value) paymentFailureEmptyCart,
+    required TResult Function(PaymentFailureEmptyCart value)
+        paymentFailureEmptyCart,
     required TResult Function(ParseOrderFailure value) parseOrderFailure,
   }) =>
       throw _privateConstructorUsedError;
@@ -88,12 +89,14 @@ mixin _$AppException {
 
 /// @nodoc
 abstract class $AppExceptionCopyWith<$Res> {
-  factory $AppExceptionCopyWith(AppException value, $Res Function(AppException) then) =
+  factory $AppExceptionCopyWith(
+          AppException value, $Res Function(AppException) then) =
       _$AppExceptionCopyWithImpl<$Res, AppException>;
 }
 
 /// @nodoc
-class _$AppExceptionCopyWithImpl<$Res, $Val extends AppException> implements $AppExceptionCopyWith<$Res> {
+class _$AppExceptionCopyWithImpl<$Res, $Val extends AppException>
+    implements $AppExceptionCopyWith<$Res> {
   _$AppExceptionCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -104,14 +107,18 @@ class _$AppExceptionCopyWithImpl<$Res, $Val extends AppException> implements $Ap
 
 /// @nodoc
 abstract class _$$EmailAlreadyInUseCopyWith<$Res> {
-  factory _$$EmailAlreadyInUseCopyWith(_$EmailAlreadyInUse value, $Res Function(_$EmailAlreadyInUse) then) =
+  factory _$$EmailAlreadyInUseCopyWith(
+          _$EmailAlreadyInUse value, $Res Function(_$EmailAlreadyInUse) then) =
       __$$EmailAlreadyInUseCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$EmailAlreadyInUseCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res, _$EmailAlreadyInUse>
+class __$$EmailAlreadyInUseCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res, _$EmailAlreadyInUse>
     implements _$$EmailAlreadyInUseCopyWith<$Res> {
-  __$$EmailAlreadyInUseCopyWithImpl(_$EmailAlreadyInUse _value, $Res Function(_$EmailAlreadyInUse) _then) : super(_value, _then);
+  __$$EmailAlreadyInUseCopyWithImpl(
+      _$EmailAlreadyInUse _value, $Res Function(_$EmailAlreadyInUse) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -126,7 +133,8 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$EmailAlreadyInUse);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$EmailAlreadyInUse);
   }
 
   @override
@@ -186,7 +194,8 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
     required TResult Function(WrongPassword value) wrongPassword,
     required TResult Function(UserNotFound value) userNotFound,
     required TResult Function(CartSyncFailed value) cartSyncFailed,
-    required TResult Function(PaymentFailureEmptyCart value) paymentFailureEmptyCart,
+    required TResult Function(PaymentFailureEmptyCart value)
+        paymentFailureEmptyCart,
     required TResult Function(ParseOrderFailure value) parseOrderFailure,
   }) {
     return emailAlreadyInUse(this);
@@ -231,13 +240,18 @@ abstract class EmailAlreadyInUse implements AppException {
 
 /// @nodoc
 abstract class _$$WeakPasswordCopyWith<$Res> {
-  factory _$$WeakPasswordCopyWith(_$WeakPassword value, $Res Function(_$WeakPassword) then) = __$$WeakPasswordCopyWithImpl<$Res>;
+  factory _$$WeakPasswordCopyWith(
+          _$WeakPassword value, $Res Function(_$WeakPassword) then) =
+      __$$WeakPasswordCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$WeakPasswordCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res, _$WeakPassword>
+class __$$WeakPasswordCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res, _$WeakPassword>
     implements _$$WeakPasswordCopyWith<$Res> {
-  __$$WeakPasswordCopyWithImpl(_$WeakPassword _value, $Res Function(_$WeakPassword) _then) : super(_value, _then);
+  __$$WeakPasswordCopyWithImpl(
+      _$WeakPassword _value, $Res Function(_$WeakPassword) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -252,7 +266,8 @@ class _$WeakPassword implements WeakPassword {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$WeakPassword);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$WeakPassword);
   }
 
   @override
@@ -312,7 +327,8 @@ class _$WeakPassword implements WeakPassword {
     required TResult Function(WrongPassword value) wrongPassword,
     required TResult Function(UserNotFound value) userNotFound,
     required TResult Function(CartSyncFailed value) cartSyncFailed,
-    required TResult Function(PaymentFailureEmptyCart value) paymentFailureEmptyCart,
+    required TResult Function(PaymentFailureEmptyCart value)
+        paymentFailureEmptyCart,
     required TResult Function(ParseOrderFailure value) parseOrderFailure,
   }) {
     return weakPassword(this);
@@ -357,14 +373,18 @@ abstract class WeakPassword implements AppException {
 
 /// @nodoc
 abstract class _$$WrongPasswordCopyWith<$Res> {
-  factory _$$WrongPasswordCopyWith(_$WrongPassword value, $Res Function(_$WrongPassword) then) =
+  factory _$$WrongPasswordCopyWith(
+          _$WrongPassword value, $Res Function(_$WrongPassword) then) =
       __$$WrongPasswordCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$WrongPasswordCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res, _$WrongPassword>
+class __$$WrongPasswordCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res, _$WrongPassword>
     implements _$$WrongPasswordCopyWith<$Res> {
-  __$$WrongPasswordCopyWithImpl(_$WrongPassword _value, $Res Function(_$WrongPassword) _then) : super(_value, _then);
+  __$$WrongPasswordCopyWithImpl(
+      _$WrongPassword _value, $Res Function(_$WrongPassword) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -379,7 +399,8 @@ class _$WrongPassword implements WrongPassword {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$WrongPassword);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$WrongPassword);
   }
 
   @override
@@ -439,7 +460,8 @@ class _$WrongPassword implements WrongPassword {
     required TResult Function(WrongPassword value) wrongPassword,
     required TResult Function(UserNotFound value) userNotFound,
     required TResult Function(CartSyncFailed value) cartSyncFailed,
-    required TResult Function(PaymentFailureEmptyCart value) paymentFailureEmptyCart,
+    required TResult Function(PaymentFailureEmptyCart value)
+        paymentFailureEmptyCart,
     required TResult Function(ParseOrderFailure value) parseOrderFailure,
   }) {
     return wrongPassword(this);
@@ -484,13 +506,18 @@ abstract class WrongPassword implements AppException {
 
 /// @nodoc
 abstract class _$$UserNotFoundCopyWith<$Res> {
-  factory _$$UserNotFoundCopyWith(_$UserNotFound value, $Res Function(_$UserNotFound) then) = __$$UserNotFoundCopyWithImpl<$Res>;
+  factory _$$UserNotFoundCopyWith(
+          _$UserNotFound value, $Res Function(_$UserNotFound) then) =
+      __$$UserNotFoundCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$UserNotFoundCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res, _$UserNotFound>
+class __$$UserNotFoundCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res, _$UserNotFound>
     implements _$$UserNotFoundCopyWith<$Res> {
-  __$$UserNotFoundCopyWithImpl(_$UserNotFound _value, $Res Function(_$UserNotFound) _then) : super(_value, _then);
+  __$$UserNotFoundCopyWithImpl(
+      _$UserNotFound _value, $Res Function(_$UserNotFound) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -505,7 +532,8 @@ class _$UserNotFound implements UserNotFound {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$UserNotFound);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$UserNotFound);
   }
 
   @override
@@ -565,7 +593,8 @@ class _$UserNotFound implements UserNotFound {
     required TResult Function(WrongPassword value) wrongPassword,
     required TResult Function(UserNotFound value) userNotFound,
     required TResult Function(CartSyncFailed value) cartSyncFailed,
-    required TResult Function(PaymentFailureEmptyCart value) paymentFailureEmptyCart,
+    required TResult Function(PaymentFailureEmptyCart value)
+        paymentFailureEmptyCart,
     required TResult Function(ParseOrderFailure value) parseOrderFailure,
   }) {
     return userNotFound(this);
@@ -610,14 +639,18 @@ abstract class UserNotFound implements AppException {
 
 /// @nodoc
 abstract class _$$CartSyncFailedCopyWith<$Res> {
-  factory _$$CartSyncFailedCopyWith(_$CartSyncFailed value, $Res Function(_$CartSyncFailed) then) =
+  factory _$$CartSyncFailedCopyWith(
+          _$CartSyncFailed value, $Res Function(_$CartSyncFailed) then) =
       __$$CartSyncFailedCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$CartSyncFailedCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res, _$CartSyncFailed>
+class __$$CartSyncFailedCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res, _$CartSyncFailed>
     implements _$$CartSyncFailedCopyWith<$Res> {
-  __$$CartSyncFailedCopyWithImpl(_$CartSyncFailed _value, $Res Function(_$CartSyncFailed) _then) : super(_value, _then);
+  __$$CartSyncFailedCopyWithImpl(
+      _$CartSyncFailed _value, $Res Function(_$CartSyncFailed) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -632,7 +665,8 @@ class _$CartSyncFailed implements CartSyncFailed {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$CartSyncFailed);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$CartSyncFailed);
   }
 
   @override
@@ -692,7 +726,8 @@ class _$CartSyncFailed implements CartSyncFailed {
     required TResult Function(WrongPassword value) wrongPassword,
     required TResult Function(UserNotFound value) userNotFound,
     required TResult Function(CartSyncFailed value) cartSyncFailed,
-    required TResult Function(PaymentFailureEmptyCart value) paymentFailureEmptyCart,
+    required TResult Function(PaymentFailureEmptyCart value)
+        paymentFailureEmptyCart,
     required TResult Function(ParseOrderFailure value) parseOrderFailure,
   }) {
     return cartSyncFailed(this);
@@ -737,14 +772,17 @@ abstract class CartSyncFailed implements AppException {
 
 /// @nodoc
 abstract class _$$PaymentFailureEmptyCartCopyWith<$Res> {
-  factory _$$PaymentFailureEmptyCartCopyWith(_$PaymentFailureEmptyCart value, $Res Function(_$PaymentFailureEmptyCart) then) =
+  factory _$$PaymentFailureEmptyCartCopyWith(_$PaymentFailureEmptyCart value,
+          $Res Function(_$PaymentFailureEmptyCart) then) =
       __$$PaymentFailureEmptyCartCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$PaymentFailureEmptyCartCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res, _$PaymentFailureEmptyCart>
+class __$$PaymentFailureEmptyCartCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res, _$PaymentFailureEmptyCart>
     implements _$$PaymentFailureEmptyCartCopyWith<$Res> {
-  __$$PaymentFailureEmptyCartCopyWithImpl(_$PaymentFailureEmptyCart _value, $Res Function(_$PaymentFailureEmptyCart) _then)
+  __$$PaymentFailureEmptyCartCopyWithImpl(_$PaymentFailureEmptyCart _value,
+      $Res Function(_$PaymentFailureEmptyCart) _then)
       : super(_value, _then);
 }
 
@@ -760,7 +798,9 @@ class _$PaymentFailureEmptyCart implements PaymentFailureEmptyCart {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$PaymentFailureEmptyCart);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PaymentFailureEmptyCart);
   }
 
   @override
@@ -820,7 +860,8 @@ class _$PaymentFailureEmptyCart implements PaymentFailureEmptyCart {
     required TResult Function(WrongPassword value) wrongPassword,
     required TResult Function(UserNotFound value) userNotFound,
     required TResult Function(CartSyncFailed value) cartSyncFailed,
-    required TResult Function(PaymentFailureEmptyCart value) paymentFailureEmptyCart,
+    required TResult Function(PaymentFailureEmptyCart value)
+        paymentFailureEmptyCart,
     required TResult Function(ParseOrderFailure value) parseOrderFailure,
   }) {
     return paymentFailureEmptyCart(this);
@@ -865,16 +906,20 @@ abstract class PaymentFailureEmptyCart implements AppException {
 
 /// @nodoc
 abstract class _$$ParseOrderFailureCopyWith<$Res> {
-  factory _$$ParseOrderFailureCopyWith(_$ParseOrderFailure value, $Res Function(_$ParseOrderFailure) then) =
+  factory _$$ParseOrderFailureCopyWith(
+          _$ParseOrderFailure value, $Res Function(_$ParseOrderFailure) then) =
       __$$ParseOrderFailureCopyWithImpl<$Res>;
   @useResult
   $Res call({String status});
 }
 
 /// @nodoc
-class __$$ParseOrderFailureCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res, _$ParseOrderFailure>
+class __$$ParseOrderFailureCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res, _$ParseOrderFailure>
     implements _$$ParseOrderFailureCopyWith<$Res> {
-  __$$ParseOrderFailureCopyWithImpl(_$ParseOrderFailure _value, $Res Function(_$ParseOrderFailure) _then) : super(_value, _then);
+  __$$ParseOrderFailureCopyWithImpl(
+      _$ParseOrderFailure _value, $Res Function(_$ParseOrderFailure) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -974,7 +1019,8 @@ class _$ParseOrderFailure implements ParseOrderFailure {
     required TResult Function(WrongPassword value) wrongPassword,
     required TResult Function(UserNotFound value) userNotFound,
     required TResult Function(CartSyncFailed value) cartSyncFailed,
-    required TResult Function(PaymentFailureEmptyCart value) paymentFailureEmptyCart,
+    required TResult Function(PaymentFailureEmptyCart value)
+        paymentFailureEmptyCart,
     required TResult Function(ParseOrderFailure value) parseOrderFailure,
   }) {
     return parseOrderFailure(this);
@@ -1018,5 +1064,6 @@ abstract class ParseOrderFailure implements AppException {
 
   String get status;
   @JsonKey(ignore: true)
-  _$$ParseOrderFailureCopyWith<_$ParseOrderFailure> get copyWith => throw _privateConstructorUsedError;
+  _$$ParseOrderFailureCopyWith<_$ParseOrderFailure> get copyWith =>
+      throw _privateConstructorUsedError;
 }

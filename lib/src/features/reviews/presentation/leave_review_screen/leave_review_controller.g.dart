@@ -7,12 +7,12 @@ part of 'leave_review_controller.dart';
 // **************************************************************************
 
 String _$leaveReviewControllerHash() =>
-    r'183dd17f2af67d34958d172a3240b53abe9eced1';
+    r'5f71662fcc7a950a82967bb17abc735d3793b180';
 
 /// See also [LeaveReviewController].
 @ProviderFor(LeaveReviewController)
 final leaveReviewControllerProvider =
-    AutoDisposeAsyncNotifierProvider<LeaveReviewController, dynamic>.internal(
+    AutoDisposeAsyncNotifierProvider<LeaveReviewController, void>.internal(
   LeaveReviewController.new,
   name: r'leaveReviewControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,5 +22,5 @@ final leaveReviewControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$LeaveReviewController = AutoDisposeAsyncNotifier<dynamic>;
+typedef _$LeaveReviewController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

@@ -11,7 +11,7 @@ part 'leave_review_controller.g.dart';
 class LeaveReviewController extends _$LeaveReviewController {
   bool mounted = true;
   @override
-  FutureOr build() {
+  FutureOr<void> build() {
     ref.onDispose(() => mounted = false);
   }
 

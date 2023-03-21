@@ -41,7 +41,7 @@ class LeaveReviewAction extends ConsumerWidget {
                 final reviewValue = ref.watch(userReviewStreamProvider(productId));
                 return CustomTextButton(
                   text: (reviewValue.value != null ? 'Update review' : 'Leave a review'.hardcoded),
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.green[700]),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.green[700]),
                   onPressed: () => context.goNamed(
                     AppRoute.leaveReview.name,
                     params: {'id': productId},

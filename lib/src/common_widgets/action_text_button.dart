@@ -1,5 +1,3 @@
-// ignore_for_file: sort_child_properties_last
-
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 
@@ -13,8 +11,8 @@ class ActionTextButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
       child: TextButton(
-        child: Text(text, style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white)),
         onPressed: onPressed,
+        child: Text(text, style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white)),
       ),
     );
   }

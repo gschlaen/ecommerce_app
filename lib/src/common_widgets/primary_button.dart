@@ -23,7 +23,7 @@ class PrimaryButton extends StatelessWidget {
             : Text(
                 text,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
               ),
       ),
     );

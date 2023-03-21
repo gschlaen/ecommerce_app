@@ -54,7 +54,7 @@ class ShoppingCartIconBadge extends StatelessWidget {
         child: Text(
           '$itemsCount',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white),
         ),
       ),
     );

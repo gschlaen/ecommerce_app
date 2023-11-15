@@ -22,7 +22,8 @@ class LeaveReviewAction extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final orders = ref.watch(matchingUserOrdersProvider(productId)).value;
     if (orders != null && orders.isNotEmpty) {
-      final dateFormatted = ref.watch(dateFormatterProvider).format(orders.first.orderDate);
+      final dateFormatted =
+          ref.watch(dateFormatterProvider).format(orders.first.orderDate);
       return Column(
         children: [
           const Divider(),
@@ -38,13 +39,19 @@ class LeaveReviewAction extends ConsumerWidget {
             startContent: Text('Purchased on $dateFormatted'.hardcoded),
             endContent: Consumer(
               builder: (context, ref, child) {
-                final reviewValue = ref.watch(userReviewStreamProvider(productId));
+                final reviewValue =
+                    ref.watch(userReviewStreamProvider(productId));
                 return CustomTextButton(
-                  text: (reviewValue.value != null ? 'Update review' : 'Leave a review'.hardcoded),
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.green[700]),
+                  text: (reviewValue.value != null
+                      ? 'Update review'
+                      : 'Leave a review'.hardcoded),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: Colors.green[700]),
                   onPressed: () => context.goNamed(
                     AppRoute.leaveReview.name,
-                    params: {'id': productId},
+                    pathParameters: {'id': productId},
                   ),
                 );
               },

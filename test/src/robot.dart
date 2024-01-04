@@ -11,6 +11,7 @@ import 'package:ecommerce_app/src/features/products/presentation/home_app_bar/mo
 import 'package:ecommerce_app/src/features/reviews/data/fake_reviews_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 
 import 'features/authentication/auth_robot.dart';
 import 'features/cart/cart_robot.dart';
@@ -39,6 +40,10 @@ class Robot {
   final GoldenRobot golden;
 
   Future<void> pumpMyApp() async {
+    // * Since widget tests rely on GoRouter when navigating between
+    // * screens, they should be configured in the same way as the main app.
+    GoRouter.optionURLReflectsImperativeAPIs = true;
+
     final productsRepository = FakeProductsRepository(addDelay: false);
     final authRepository = FakeAuthRepository(addDelay: false);
     final localCartRepository = FakeLocalCartRepository(addDelay: false);

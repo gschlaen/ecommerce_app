@@ -10,7 +10,7 @@ extension OrderStatusString on OrderStatus {
     if (string == 'confirmed') return OrderStatus.confirmed;
     if (string == 'shipped') return OrderStatus.shipped;
     if (string == 'delivered') return OrderStatus.delivered;
-    throw AppException.parseOrderFailure(string);
+    throw ParseOrderFailureException(string);
   }
 }
 

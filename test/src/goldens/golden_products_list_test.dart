@@ -1,5 +1,6 @@
+import 'dart:ui';
+
 import 'package:ecommerce_app/src/app.dart';
-import 'package:flutter/animation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../robot.dart';

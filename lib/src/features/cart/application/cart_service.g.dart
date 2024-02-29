@@ -20,6 +20,20 @@ final cartServiceProvider = Provider<CartService>.internal(
 );
 
 typedef CartServiceRef = ProviderRef<CartService>;
+String _$cartHash() => r'8c55e19ee78a30cecb0d2b076ce688f11e9d5c1a';
+
+/// See also [cart].
+@ProviderFor(cart)
+final cartProvider = StreamProvider<Cart>.internal(
+  cart,
+  name: r'cartProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$cartHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef CartRef = StreamProviderRef<Cart>;
 String _$cartItemsCountHash() => r'c8d67d2c5fa13d83da6dec350bca0418820ad8d8';
 
 /// See also [cartItemsCount].
@@ -153,4 +167,5 @@ class ItemAvailableQuantityProvider extends AutoDisposeProvider<int> {
     return _SystemHash.finish(hash);
   }
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

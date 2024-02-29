@@ -22,7 +22,8 @@ class ReviewsService {
     // * we should only call this method when the user is signed in
     assert(user != null);
     if (user == null) {
-      throw AssertionError('Can\'t submit a review if the user is not signed in'.hardcoded);
+      throw AssertionError(
+          'Can\'t submit a review if the user is not signed in'.hardcoded);
     }
     await ref.read(reviewsRepositoryProvider).setReview(
           productId: productId,
@@ -36,7 +37,8 @@ class ReviewsService {
   }
 
   Future<void> _updateProductRating(ProductID productId) async {
-    final reviews = await ref.read(reviewsRepositoryProvider).fetchReviews(productId);
+    final reviews =
+        await ref.read(reviewsRepositoryProvider).fetchReviews(productId);
     final avgRating = _avgReviewScore(reviews);
     await ref.read(productsRepositoryProvider).updateProductRating(
           productId: productId,
@@ -68,18 +70,21 @@ ReviewsService reviewsService(ReviewsServiceRef ref) {
 Future<Review?> userReviewFuture(UserReviewFutureRef ref, ProductID productId) {
   final user = ref.watch(authStateChangesProvider).value;
   if (user != null) {
-    return ref.watch(reviewsRepositoryProvider).fetchUserReview(productId, user.uid);
+    return ref
+        .watch(reviewsRepositoryProvider)
+        .fetchUserReview(productId, user.uid);
   } else {
     return Future.value(null);
   }
 }
 
 /// Check if a product was previously reviewed by the user
-final userReviewStreamProvider = StreamProvider.autoDispose.family<Review?, ProductID>((ref, productId) {
+@riverpod
+Stream<Review?> userReviewStream(UserReviewStreamRef ref, ProductID id) {
   final user = ref.watch(authStateChangesProvider).value;
   if (user != null) {
-    return ref.watch(reviewsRepositoryProvider).watchUserReview(productId, user.uid);
+    return ref.watch(reviewsRepositoryProvider).watchUserReview(id, user.uid);
   } else {
     return Stream.value(null);
   }
-});
+}

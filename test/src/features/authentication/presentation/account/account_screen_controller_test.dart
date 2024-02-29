@@ -67,7 +67,8 @@ void main() {
       // verify initial value from build method
       verify(() => listener(null, data));
       // run
-      final controller = container.read(accountScreenControllerProvider.notifier);
+      final controller =
+          container.read(accountScreenControllerProvider.notifier);
       await controller.signOut();
       // verify
       verifyInOrder([
@@ -102,7 +103,8 @@ void main() {
       // verify initial value from build method
       verify(() => listener(null, data));
       // run
-      final controller = container.read(accountScreenControllerProvider.notifier);
+      final controller =
+          container.read(accountScreenControllerProvider.notifier);
       await controller.signOut();
       // verify
       verifyInOrder([
@@ -110,7 +112,8 @@ void main() {
         // * use a matcher since AsyncLoading != AsyncLoading with data
         () => listener(data, any(that: isA<AsyncLoading>())),
         // error when complete
-        () => listener(any(that: isA<AsyncLoading>()), any(that: isA<AsyncError>())),
+        () => listener(
+            any(that: isA<AsyncLoading>()), any(that: isA<AsyncError>())),
       ]);
       verifyNoMoreInteractions(listener);
       verify(authRepository.signOut).called(1);

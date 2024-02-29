@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../utils/delay.dart';
@@ -87,6 +86,7 @@ FakeReviewsRepository reviewsRepository(ReviewsRepositoryRef ref) {
   return FakeReviewsRepository();
 }
 
-final productReviewsProvider = StreamProvider.autoDispose.family<List<Review>, ProductID>((ref, productId) {
-  return ref.watch(reviewsRepositoryProvider).watchReviews(productId);
-});
+@riverpod
+Stream<List<Review>> productReviews(ProductReviewsRef ref, ProductID id) {
+  return ref.watch(reviewsRepositoryProvider).watchReviews(id);
+}

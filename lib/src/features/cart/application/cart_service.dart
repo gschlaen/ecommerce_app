@@ -81,14 +81,15 @@ CartService cartService(CartServiceRef ref) {
       );
 }
 
-final cartProvider = StreamProvider<Cart>((ref) {
+@Riverpod(keepAlive: true)
+Stream<Cart> cart(CartRef ref) {
   final user = ref.watch(authStateChangesProvider).value;
   if (user != null) {
     return ref.watch(remoteCartRepositoryProvider).watchCart(user.uid);
   } else {
     return ref.watch(localCartRepositoryProvider).watchCart();
   }
-});
+}
 
 @Riverpod(keepAlive: true)
 int cartItemsCount(CartItemsCountRef ref) {
@@ -105,7 +106,8 @@ double cartTotal(CartTotalRef ref) {
   if (cart.items.isNotEmpty && productsList.isNotEmpty) {
     var total = 0.0;
     for (final item in cart.items.entries) {
-      final product = productsList.firstWhere((product) => product.id == item.key);
+      final product =
+          productsList.firstWhere((product) => product.id == item.key);
       total += product.price * item.value;
     }
     return total;
@@ -118,7 +120,7 @@ double cartTotal(CartTotalRef ref) {
 int itemAvailableQuantity(ItemAvailableQuantityRef ref, Product product) {
   final cart = ref.watch(cartProvider).value;
   if (cart != null) {
-    // get the current quantity for rhe given roduct in the cart
+    // get the current quantity for the given roduct in the cart
     final int quantity = cart.items[product.id] ?? 0;
     // subtract it from the product available quantity
     return max(0, product.availableQuantity - quantity);

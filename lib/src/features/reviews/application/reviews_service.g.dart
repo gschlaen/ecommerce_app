@@ -136,4 +136,99 @@ class UserReviewFutureProvider extends AutoDisposeFutureProvider<Review?> {
     return _SystemHash.finish(hash);
   }
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+
+String _$userReviewStreamHash() => r'63d6101443637e0a266dbb2c496abfe44113218f';
+typedef UserReviewStreamRef = AutoDisposeStreamProviderRef<Review?>;
+
+/// Check if a product was previously reviewed by the user
+///
+/// Copied from [userReviewStream].
+@ProviderFor(userReviewStream)
+const userReviewStreamProvider = UserReviewStreamFamily();
+
+/// Check if a product was previously reviewed by the user
+///
+/// Copied from [userReviewStream].
+class UserReviewStreamFamily extends Family<AsyncValue<Review?>> {
+  /// Check if a product was previously reviewed by the user
+  ///
+  /// Copied from [userReviewStream].
+  const UserReviewStreamFamily();
+
+  /// Check if a product was previously reviewed by the user
+  ///
+  /// Copied from [userReviewStream].
+  UserReviewStreamProvider call(
+    String id,
+  ) {
+    return UserReviewStreamProvider(
+      id,
+    );
+  }
+
+  @override
+  UserReviewStreamProvider getProviderOverride(
+    covariant UserReviewStreamProvider provider,
+  ) {
+    return call(
+      provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'userReviewStreamProvider';
+}
+
+/// Check if a product was previously reviewed by the user
+///
+/// Copied from [userReviewStream].
+class UserReviewStreamProvider extends AutoDisposeStreamProvider<Review?> {
+  /// Check if a product was previously reviewed by the user
+  ///
+  /// Copied from [userReviewStream].
+  UserReviewStreamProvider(
+    this.id,
+  ) : super.internal(
+          (ref) => userReviewStream(
+            ref,
+            id,
+          ),
+          from: userReviewStreamProvider,
+          name: r'userReviewStreamProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$userReviewStreamHash,
+          dependencies: UserReviewStreamFamily._dependencies,
+          allTransitiveDependencies:
+              UserReviewStreamFamily._allTransitiveDependencies,
+        );
+
+  final String id;
+
+  @override
+  bool operator ==(Object other) {
+    return other is UserReviewStreamProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

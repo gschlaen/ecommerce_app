@@ -4,7 +4,7 @@ import '../robot.dart';
 
 void main() {
   testWidgets('Full purchase flow', (tester) async {
-    // * Note: The test are wrapped with `runAsync` to prevent this error:
+    // * Note: All tests are wrapped with `runAsync` to prevent this error:
     // * A Timer is still pending even after the widget tree was disposed.
     await tester.runAsync(() async {
       final r = Robot(tester);

@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../exceptions/app_exception.dart';
@@ -22,7 +21,7 @@ class FakeAuthRepository {
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     await delay(addDelay);
-    // check the given credentials agains each registered user
+    // check the given credentials against each registered user
     for (final u in _users) {
       // matching email and password
       if (u.email == email && u.password == password) {
@@ -31,23 +30,24 @@ class FakeAuthRepository {
       }
       // same email, wrong password
       if (u.email == email && u.password != password) {
-        throw const AppException.wrongPassword();
+        throw WrongPasswordException();
       }
     }
-    throw const AppException.userNotFound();
+    throw UserNotFoundException();
   }
 
-  Future<void> createUserWithEmailAndPassword(String email, String password) async {
+  Future<void> createUserWithEmailAndPassword(
+      String email, String password) async {
     await delay(addDelay);
     // check if the email is already in use
     for (final u in _users) {
       if (u.email == email) {
-        throw const AppException.emailAlreadyInUse();
+        throw EmailAlreadyInUseException();
       }
     }
     // minimum password length requirement
     if (password.length < 8) {
-      throw const AppException.weakPassword();
+      throw WeakPasswordException();
     }
     // create new user
     _createNewUser(email, password);
@@ -80,7 +80,8 @@ FakeAuthRepository authRepository(AuthRepositoryRef ref) {
   return auth;
 }
 
-final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
+@Riverpod(keepAlive: true)
+Stream<AppUser?> authStateChanges(AuthStateChangesRef ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.authStateChanges();
-});
+}

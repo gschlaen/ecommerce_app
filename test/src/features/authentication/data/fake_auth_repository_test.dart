@@ -6,9 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   const testEmail = 'test@test.com';
   const testPassword = 'test1234';
-  final testUser = AppUser(uid: testEmail.split('').reversed.join(), email: testEmail);
+  final testUser =
+      AppUser(uid: testEmail.split('').reversed.join(), email: testEmail);
 
-  FakeAuthRepository makeAuthRepository() => FakeAuthRepository(addDelay: false);
+  FakeAuthRepository makeAuthRepository() =>
+      FakeAuthRepository(addDelay: false);
   group('FakeAuthRepository', () {
     test('currentUser is null', () {
       final authRepository = makeAuthRepository();
@@ -26,7 +28,7 @@ void main() {
           testEmail,
           testPassword,
         ),
-        throwsA(const AppException.userNotFound()),
+        throwsA(isA<UserNotFoundException>()),
       );
       expect(authRepository.currentUser, null);
       expect(authRepository.authStateChanges(), emits(null));
@@ -35,7 +37,8 @@ void main() {
     test('currentUser is not null after registration', () async {
       final authRepository = makeAuthRepository();
       addTearDown(authRepository.dispose);
-      await authRepository.createUserWithEmailAndPassword(testEmail, testPassword);
+      await authRepository.createUserWithEmailAndPassword(
+          testEmail, testPassword);
       expect(authRepository.currentUser, testUser);
       expect(authRepository.authStateChanges(), emits(testUser));
     });
@@ -43,7 +46,8 @@ void main() {
     test('currentUser is null after sign out', () async {
       final authRepository = makeAuthRepository();
       addTearDown(authRepository.dispose);
-      await authRepository.createUserWithEmailAndPassword(testEmail, testPassword);
+      await authRepository.createUserWithEmailAndPassword(
+          testEmail, testPassword);
       expect(authRepository.currentUser, testUser);
       expect(authRepository.authStateChanges(), emits(testUser));
 
@@ -56,7 +60,10 @@ void main() {
       final authRepository = makeAuthRepository();
       addTearDown(authRepository.dispose);
       authRepository.dispose();
-      expect(() => authRepository.createUserWithEmailAndPassword(testEmail, testPassword), throwsStateError);
+      expect(
+          () => authRepository.createUserWithEmailAndPassword(
+              testEmail, testPassword),
+          throwsStateError);
     });
   });
 }

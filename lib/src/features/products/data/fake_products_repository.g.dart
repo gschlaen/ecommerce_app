@@ -23,6 +23,23 @@ final productsRepositoryProvider =
 );
 
 typedef ProductsRepositoryRef = AutoDisposeProviderRef<FakeProductsRepository>;
+String _$productsListStreamHash() =>
+    r'49008d805de00f6210eee725adfaff5e90347b40';
+
+/// See also [productsListStream].
+@ProviderFor(productsListStream)
+final productsListStreamProvider =
+    AutoDisposeStreamProvider<List<Product>>.internal(
+  productsListStream,
+  name: r'productsListStreamProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$productsListStreamHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef ProductsListStreamRef = AutoDisposeStreamProviderRef<List<Product>>;
 String _$productsListFutureHash() =>
     r'2694e6ac806094d52dc2ad18dc71eed550bc0a4c';
 
@@ -40,8 +57,7 @@ final productsListFutureProvider =
 );
 
 typedef ProductsListFutureRef = AutoDisposeFutureProviderRef<List<Product>>;
-String _$productsListSearchHash() =>
-    r'fe33258d5369d856552d1eb45b72467729a06adc';
+String _$productHash() => r'e0a0871139eb0e01c4937d4285bb57c4c84ba1e4';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -64,6 +80,88 @@ class _SystemHash {
   }
 }
 
+typedef ProductRef = AutoDisposeStreamProviderRef<Product?>;
+
+/// See also [product].
+@ProviderFor(product)
+const productProvider = ProductFamily();
+
+/// See also [product].
+class ProductFamily extends Family<AsyncValue<Product?>> {
+  /// See also [product].
+  const ProductFamily();
+
+  /// See also [product].
+  ProductProvider call(
+    String id,
+  ) {
+    return ProductProvider(
+      id,
+    );
+  }
+
+  @override
+  ProductProvider getProviderOverride(
+    covariant ProductProvider provider,
+  ) {
+    return call(
+      provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'productProvider';
+}
+
+/// See also [product].
+class ProductProvider extends AutoDisposeStreamProvider<Product?> {
+  /// See also [product].
+  ProductProvider(
+    this.id,
+  ) : super.internal(
+          (ref) => product(
+            ref,
+            id,
+          ),
+          from: productProvider,
+          name: r'productProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$productHash,
+          dependencies: ProductFamily._dependencies,
+          allTransitiveDependencies: ProductFamily._allTransitiveDependencies,
+        );
+
+  final String id;
+
+  @override
+  bool operator ==(Object other) {
+    return other is ProductProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+String _$productsListSearchHash() =>
+    r'fe33258d5369d856552d1eb45b72467729a06adc';
 typedef ProductsListSearchRef = AutoDisposeFutureProviderRef<List<Product>>;
 
 /// See also [productsListSearch].
@@ -145,4 +243,5 @@ class ProductsListSearchProvider
     return _SystemHash.finish(hash);
   }
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

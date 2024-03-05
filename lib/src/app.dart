@@ -17,6 +17,8 @@ class MyApp extends ConsumerWidget {
       // * The home page of the app
       onGenerateTitle: (BuildContext context) => 'My Shop'.hardcoded,
       theme: ThemeData(
+        // * Use this to toggle Material 3 (defaults to true since Flutter 3.16)
+        useMaterial3: true,
         primarySwatch: Colors.grey,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black87,

@@ -43,7 +43,7 @@ class ShoppingCartScreen extends ConsumerWidget {
               ctaBuilder: (_) => PrimaryButton(
                 text: 'Checkout'.hardcoded,
                 isLoading: state.isLoading,
-                onPressed: () => context.pushNamed(AppRoute.checkout.name),
+                onPressed: () => context.goNamed(AppRoute.checkout.name),
               ),
             ),
           );

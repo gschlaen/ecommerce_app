@@ -22,7 +22,7 @@ class ShoppingCartIcon extends ConsumerWidget {
           child: IconButton(
             key: shoppingCartIconKey,
             icon: const Icon(Icons.shopping_cart),
-            onPressed: () => context.pushNamed(AppRoute.cart.name),
+            onPressed: () => context.goNamed(AppRoute.cart.name),
           ),
         ),
         if (cartItemsCount > 0)
@@ -54,7 +54,10 @@ class ShoppingCartIconBadge extends StatelessWidget {
         child: Text(
           '$itemsCount',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white),
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: Colors.white),
         ),
       ),
     );

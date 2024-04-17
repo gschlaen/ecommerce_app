@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
-import 'package:ecommerce_app/src/features/reviews/application/reviews_service.dart';
+import 'package:ecommerce_app/src/features/reviews/application/fake_reviews_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

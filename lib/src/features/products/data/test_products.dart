@@ -1,4 +1,4 @@
-import '../features/products/domain/product.dart';
+import '../domain/product.dart';
 
 /// Test products to be used until a data source is implemented
 const kTestProducts = [

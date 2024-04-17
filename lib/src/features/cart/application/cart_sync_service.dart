@@ -8,7 +8,7 @@ import '../../authentication/data/fake_auth_repository.dart';
 import '../../authentication/domain/app_user.dart';
 import '../../products/data/fake_products_repository.dart';
 import '../data/local/local_cart_repository.dart';
-import '../data/remote/remote_cart_repository.dart';
+import '../data/remote/fake_remote_cart_repository.dart';
 import '../domain/cart.dart';
 import '../domain/item.dart';
 import '../domain/mutable_cart.dart';
@@ -22,7 +22,8 @@ class CartSyncService {
   final Ref ref;
 
   void _init() {
-    ref.listen<AsyncValue<AppUser?>>(authStateChangesProvider, (previous, next) {
+    ref.listen<AsyncValue<AppUser?>>(authStateChangesProvider,
+        (previous, next) {
       final previousUser = previous?.value;
       final user = next.value;
       if (previousUser == null && user != null) {
@@ -42,7 +43,8 @@ class CartSyncService {
         // Get the remote cart data
         final remoteCartRepository = ref.read(remoteCartRepositoryProvider);
         final remoteCart = await remoteCartRepository.fetchCart(uid);
-        final localItemsToAdd = await _getLocalItemsToAdd(localCart, remoteCart);
+        final localItemsToAdd =
+            await _getLocalItemsToAdd(localCart, remoteCart);
         // Add all the local items to the remote cart
         final updatedRemoteCart = remoteCart.addItems(localItemsToAdd);
         // Write the updated remote cart data to the repositorie
@@ -55,7 +57,8 @@ class CartSyncService {
     }
   }
 
-  Future<List<Item>> _getLocalItemsToAdd(Cart localCart, Cart remoteCart) async {
+  Future<List<Item>> _getLocalItemsToAdd(
+      Cart localCart, Cart remoteCart) async {
     // Get the list of products (needed to read the available quantities)
     final productRepository = ref.read(productsRepositoryProvider);
     final products = await productRepository.fetchProductsList();
@@ -69,10 +72,12 @@ class CartSyncService {
       // Get the corrresponding product to know de available quantity
       final product = products.firstWhere((product) => product.id == productId);
       // Cap the quantity of each item to the available quantity
-      final cappedLocalQuantity = min(localQuantity, product.availableQuantity - remoteQuantity);
+      final cappedLocalQuantity =
+          min(localQuantity, product.availableQuantity - remoteQuantity);
       // if the capped quantity is > 0, add to the list of items to add
       if (cappedLocalQuantity > 0) {
-        localItemsToAdd.add(Item(productId: productId, quantity: cappedLocalQuantity));
+        localItemsToAdd
+            .add(Item(productId: productId, quantity: cappedLocalQuantity));
       }
     }
     return localItemsToAdd;

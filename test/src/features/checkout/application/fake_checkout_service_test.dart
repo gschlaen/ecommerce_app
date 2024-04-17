@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
-import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_repository.dart';
+import 'package:ecommerce_app/src/features/cart/data/remote/fake_remote_cart_repository.dart';
 import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
 import 'package:ecommerce_app/src/features/checkout/application/fake_checkout_service.dart';
 import 'package:ecommerce_app/src/features/orders/data/fake_orders_repository.dart';
@@ -20,7 +20,8 @@ void main() {
     registerFallbackValue(Order(
       id: '1',
       userId: testUser.uid,
-      items: {'1': 1},
+      items: const {'1': 1},
+      productIds: const ['1'],
       orderStatus: OrderStatus.confirmed,
       orderDate: testDate,
       total: 15,
@@ -80,7 +81,8 @@ void main() {
       when(() => ordersRepository.addOrder(testUser.uid, any())).thenAnswer(
         (_) => Future.value(),
       );
-      when(() => remoteCartRepository.setCart(testUser.uid, const Cart())).thenAnswer(
+      when(() => remoteCartRepository.setCart(testUser.uid, const Cart()))
+          .thenAnswer(
         (_) => Future.value(),
       );
       final checkoutService = makeCheckoutService();
@@ -88,7 +90,8 @@ void main() {
       await checkoutService.placeOrder();
       // verify
       verify(() => ordersRepository.addOrder(testUser.uid, any())).called(1);
-      verify(() => remoteCartRepository.setCart(testUser.uid, const Cart())).called(1);
+      verify(() => remoteCartRepository.setCart(testUser.uid, const Cart()))
+          .called(1);
     });
   });
 }

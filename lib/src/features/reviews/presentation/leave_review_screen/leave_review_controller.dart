@@ -2,7 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../utils/current_date_provider.dart';
 import '../../../products/domain/product.dart';
-import '../../application/reviews_service.dart';
+import '../../application/fake_reviews_service.dart';
 import '../../domain/review.dart';
 
 part 'leave_review_controller.g.dart';

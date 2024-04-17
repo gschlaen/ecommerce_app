@@ -1,10 +1,11 @@
+import 'package:ecommerce_app/src/common_widgets/responsive_center.dart';
+import 'package:ecommerce_app/src/constants/app_sizes.dart';
+import 'package:ecommerce_app/src/features/products/presentation/home_app_bar/home_app_bar.dart';
+import 'package:ecommerce_app/src/features/products/presentation/products_list/products_search_text_field.dart';
+import 'package:ecommerce_app/src/features/products/presentation/products_list/sliver_products_grid.dart';
+import 'package:ecommerce_app/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../common_widgets/responsive_center.dart';
-import '../../../../constants/app_sizes.dart';
-import '../home_app_bar/home_app_bar.dart';
-import 'products_grid.dart';
-import 'products_search_text_field.dart';
+import 'package:go_router/go_router.dart';
 
 /// Shows the list of products with a search field at the top.
 class ProductsListScreen extends StatefulWidget {
@@ -47,14 +48,16 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
       appBar: const HomeAppBar(),
       body: CustomScrollView(
         controller: _scrollController,
-        slivers: const [
-          ResponsiveSliverCenter(
+        slivers: [
+          const ResponsiveSliverCenter(
             padding: EdgeInsets.all(Sizes.p16),
             child: ProductsSearchTextField(),
           ),
-          ResponsiveSliverCenter(
-            padding: EdgeInsets.all(Sizes.p16),
-            child: ProductsGrid(),
+          SliverProductsGrid(
+            onPressed: (context, productId) => context.goNamed(
+              AppRoute.product.name,
+              pathParameters: {'id': productId},
+            ),
           ),
         ],
       ),

@@ -1,5 +1,5 @@
-import 'package:ecommerce_app/src/constants/test_products.dart';
 import 'package:ecommerce_app/src/features/products/presentation/products_list/product_card.dart';
+import 'package:ecommerce_app/src/features/products/presentation/products_list/products_search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -14,21 +14,28 @@ class ProductsRobot {
     await tester.pumpAndSettle();
   }
 
-  void expectFindAllProductCards() {
-    final finder = find.byType(ProductCard);
-    expect(finder, findsNWidgets(kTestProducts.length));
+  void expectFindSearchBox() {
+    final finder = find.byType(ProductsSearchTextField);
+    expect(finder, findsOneWidget);
   }
 
-  void expectFindNProductCards(int count) {
-    final finder = find.byType(ProductCard);
-    expect(finder, findsNWidgets(count));
+  // * Since the product cards are loaded with a sliver grid widget, only the
+  // * visible ones will be loaded, even if we use skipOffstage: false
+  // * This means that on mobile we may get only one card, even if we have
+  // * many more products
+  void expectFindAtLeastNProductCards(int count) {
+    final finder = find.byType(ProductCard, skipOffstage: false);
+    expect(finder, findsAtLeastNWidgets(count));
+  }
+
+  void expectProductsListLoaded() {
+    expectFindSearchBox();
+    expectFindAtLeastNProductCards(1);
   }
 
   // product page
   Future<void> setProductQuantity(int quantity) async {
     final finder = find.byIcon(Icons.add);
-    // this scrolls the Scrollable widget so as to make widget W specified by finder visible.
-    await tester.ensureVisible(finder);
     expect(finder, findsOneWidget);
     for (var i = 1; i < quantity; i++) {
       await tester.tap(finder);

@@ -1,6 +1,6 @@
-import 'package:ecommerce_app/src/constants/test_products.dart';
 import 'package:ecommerce_app/src/features/cart/application/cart_service.dart';
 import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
+import 'package:ecommerce_app/src/features/products/data/test_products.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -20,7 +20,8 @@ void main() {
       final container = makeProviderContainer(
         cart: const Stream.empty(),
       );
-      final availableQuantity = container.read(itemAvailableQuantityProvider(kTestProducts[0]));
+      final availableQuantity =
+          container.read(itemAvailableQuantityProvider(kTestProducts[0]));
       expect(availableQuantity, 5);
     });
 
@@ -29,7 +30,8 @@ void main() {
         cart: Stream.value(const Cart()),
       );
       await container.read(cartProvider.future);
-      final availableQuantity = container.read(itemAvailableQuantityProvider(kTestProducts[0]));
+      final availableQuantity =
+          container.read(itemAvailableQuantityProvider(kTestProducts[0]));
       expect(availableQuantity, 5);
     });
 
@@ -38,7 +40,8 @@ void main() {
         cart: Stream.value(const Cart({'1': 1})),
       );
       await container.read(cartProvider.future);
-      final availableQuantity = container.read(itemAvailableQuantityProvider(kTestProducts[0]));
+      final availableQuantity =
+          container.read(itemAvailableQuantityProvider(kTestProducts[0]));
       expect(availableQuantity, 4);
     });
 
@@ -47,7 +50,8 @@ void main() {
         cart: Stream.value(const Cart({'1': 5})),
       );
       await container.read(cartProvider.future);
-      final availableQuantity = container.read(itemAvailableQuantityProvider(kTestProducts[0]));
+      final availableQuantity =
+          container.read(itemAvailableQuantityProvider(kTestProducts[0]));
       expect(availableQuantity, 0);
     });
 
@@ -56,7 +60,8 @@ void main() {
         cart: Stream.value(const Cart({'1': 10})),
       );
       await container.read(cartProvider.future);
-      final availableQuantity = container.read(itemAvailableQuantityProvider(kTestProducts[0]));
+      final availableQuantity =
+          container.read(itemAvailableQuantityProvider(kTestProducts[0]));
       expect(availableQuantity, 0);
     });
   });

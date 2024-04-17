@@ -1,12 +1,10 @@
 import 'dart:async';
 
+import 'package:ecommerce_app/src/features/products/data/test_products.dart';
+import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import 'package:ecommerce_app/src/utils/delay.dart';
+import 'package:ecommerce_app/src/utils/in_memory_store.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../constants/test_products.dart';
-import '../../../localization/string_hardcoded.dart';
-import '../../../utils/delay.dart';
-import '../../../utils/in_memory_store.dart';
-import '../domain/product.dart';
 
 part 'fake_products_repository.g.dart';
 
@@ -17,44 +15,40 @@ class FakeProductsRepository {
   /// Preload with the default list of products when the app starts
   final _products = InMemoryStore<List<Product>>(List.from(kTestProducts));
 
-  List<Product> getProductsList() {
-    return _products.value;
-  }
-
-  Product? getProduct(String id) {
+  /// Get a product by ID.
+  /// This method is only used by some of the "fake" services in the app.
+  /// In real-world apps, remote data can only be obtained asynchronously.
+  Product? getProduct(ProductID id) {
     return _getProduct(_products.value, id);
   }
 
+  // Retrieve the products list as a [Future] (one-time read)
   Future<List<Product>> fetchProductsList() async {
-    await delay(addDelay);
     return Future.value(_products.value);
   }
 
+  // Retrieve the products list as a [Stream] (for realtime updates)
   Stream<List<Product>> watchProductsList() {
     return _products.stream;
   }
 
-  Stream<Product?> watchProduct(String id) {
+  // Retrieve a specific product by ID
+  Stream<Product?> watchProduct(ProductID id) {
     return watchProductsList().map((products) => _getProduct(products, id));
   }
 
-  /// Updat product rating
-  Future<void> updateProductRating({
-    required ProductID productId,
-    required double avgRating,
-    required int numRatings,
-  }) async {
+  /// Update product or add a new one
+  Future<void> setProduct(Product product) async {
     await delay(addDelay);
     final products = _products.value;
-    final index = products.indexWhere((item) => item.id == productId);
+    final index = products.indexWhere((p) => p.id == product.id);
     if (index == -1) {
-      // if not found throw error
-      throw StateError('Product not found (id: $productId)'.hardcoded);
+      // if not found, add as a new product
+      products.add(product);
+    } else {
+      // else, overwrite previous product
+      products[index] = product;
     }
-    products[index] = products[index].copyWith(
-      avgRating: avgRating,
-      numRatings: numRatings,
-    );
     _products.value = products;
   }
 
@@ -75,6 +69,8 @@ class FakeProductsRepository {
   }
 
   static Product? _getProduct(List<Product> products, String id) {
+    // * This can also be implemented with [firstWhereOrNull] from this package:
+    // * https://api.flutter.dev/flutter/package-collection_collection/IterableExtension/firstWhereOrNull.html
     try {
       return products.firstWhere((product) => product.id == id);
     } catch (e) {
@@ -83,42 +79,51 @@ class FakeProductsRepository {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 FakeProductsRepository productsRepository(ProductsRepositoryRef ref) {
-  // * Set addDelay to false for faster loading
-  return FakeProductsRepository(addDelay: false);
+  return FakeProductsRepository(addDelay: true);
 }
 
 @riverpod
 Stream<List<Product>> productsListStream(ProductsListStreamRef ref) {
-  final productRepository = ref.watch(productsRepositoryProvider);
-  return productRepository.watchProductsList();
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  return productsRepository.watchProductsList();
 }
 
 @riverpod
 Future<List<Product>> productsListFuture(ProductsListFutureRef ref) {
-  final productRepository = ref.watch(productsRepositoryProvider);
-  return productRepository.fetchProductsList();
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  return productsRepository.fetchProductsList();
 }
 
 @riverpod
 Stream<Product?> product(ProductRef ref, ProductID id) {
-  final productRepository = ref.watch(productsRepositoryProvider);
-  return productRepository.watchProduct(id);
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  return productsRepository.watchProduct(id);
 }
 
 @riverpod
 Future<List<Product>> productsListSearch(
     ProductsListSearchRef ref, String query) async {
-  // ref.onDispose(() => debugPrint('disposed: $query'));
-  // ref.onCancel(() => debugPrint('cancel: $query'));
-
   final link = ref.keepAlive();
-  // * keep previous search results in memory for 60 seconds
-  final timer = Timer(const Duration(seconds: 60), () {
-    link.close();
+  // a timer to be used by the callbacks below
+  Timer? timer;
+  // When the provider is destroyed, cancel the http request and the timer
+  ref.onDispose(() {
+    timer?.cancel();
   });
-  ref.onDispose(() => timer.cancel());
+  // When the last listener is removed, start a timer to dispose the cached data
+  ref.onCancel(() {
+    // start a 30 second timer
+    timer = Timer(const Duration(seconds: 30), () {
+      // dispose on timeout
+      link.close();
+    });
+  });
+  // If the provider is listened again after it was paused, cancel the timer
+  ref.onResume(() {
+    timer?.cancel();
+  });
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.searchProducts(query);
 }

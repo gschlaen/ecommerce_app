@@ -12,7 +12,9 @@ void main() {
     r.cart.expectFindNCartItems(1);
     // checkout
     await r.checkout.startCheckout();
+    // auth
     await r.auth.enterAndSubmitEmailAndPassword();
+    // payment
     r.cart.expectFindNCartItems(1);
     await r.checkout.startPayment();
     // when a payment is complete, user is taken to the orders page
@@ -21,11 +23,11 @@ void main() {
   }
 
   testWidgets('purchase product, leave review, update it', (tester) async {
-    // * Note: The test is wrapped with `runAsync` to prevent this error:
+    // * Note: All tests are wrapped with `runAsync` to prevent this error:
     // * A Timer is still pending even after the widget tree was disposed.
     await tester.runAsync(() async {
       final r = Robot(tester);
-      await r.pumpMyApp();
+      await r.pumpMyAppWithFakes();
       await purchaseOneProduct(r);
       await r.products.selectProduct();
       // leave review

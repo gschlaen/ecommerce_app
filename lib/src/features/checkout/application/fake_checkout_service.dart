@@ -1,21 +1,30 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
+import 'package:ecommerce_app/src/features/cart/data/remote/fake_remote_cart_repository.dart';
+import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
+import 'package:ecommerce_app/src/features/orders/data/fake_orders_repository.dart';
+import 'package:ecommerce_app/src/features/orders/domain/order.dart';
+import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
+import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../localization/string_hardcoded.dart';
-import '../../../utils/current_date_provider.dart';
-import '../../authentication/data/fake_auth_repository.dart';
-import '../../cart/data/remote/remote_cart_repository.dart';
-import '../../cart/domain/cart.dart';
-import '../../orders/data/fake_orders_repository.dart';
-import '../../orders/domain/order.dart';
-import '../../products/data/fake_products_repository.dart';
 
 part 'fake_checkout_service.g.dart';
 
 /// A fake checkout service that doesn't process real payments.
 class FakeCheckoutService {
-  FakeCheckoutService(this.ref);
-  final Ref ref;
+  // * To make writing unit tests easier, here we pass all dependencies as
+  // * arguments rather than using a Ref
+  const FakeCheckoutService({
+    required this.authRepository,
+    required this.remoteCartRepository,
+    required this.fakeOrdersRepository,
+    required this.fakeProducsRepository,
+    required this.currentDateBuilder,
+  });
+  final FakeAuthRepository authRepository;
+  final FakeRemoteCartRepository remoteCartRepository;
+  final FakeOrdersRepository fakeOrdersRepository;
+  final FakeProductsRepository fakeProducsRepository;
+  final DateTime Function() currentDateBuilder;
 
   /// Temporary client-side logic for placing an order.
   /// Part of this logic should run on the server, so that we can:
@@ -24,10 +33,6 @@ class FakeCheckoutService {
   /// - process the payment and fullfill the order
   /// The server-side logic will be covered in course #2
   Future<void> placeOrder() async {
-    final authRepository = ref.read(authRepositoryProvider);
-    final remoteCartRepository = ref.read(remoteCartRepositoryProvider);
-    final ordersRepository = ref.read(ordersRepositoryProvider);
-    final currentDateBuilder = ref.read(currentDateBuilderProvider);
     // * Assertion operator is ok here since this method is only called from
     // * a place where the user is signed in
     final uid = authRepository.currentUser!.uid;
@@ -44,12 +49,13 @@ class FakeCheckoutService {
         id: orderId,
         userId: uid,
         items: cart.items,
+        productIds: cart.items.keys.toList(),
         orderStatus: OrderStatus.confirmed,
         orderDate: orderDate,
         total: total,
       );
       // 3. Save it using the repository
-      await ordersRepository.addOrder(uid, order);
+      await fakeOrdersRepository.addOrder(uid, order);
       // 4. Empty the cart
       await remoteCartRepository.setCart(uid, const Cart());
     } else {
@@ -62,12 +68,11 @@ class FakeCheckoutService {
     if (cart.items.isEmpty) {
       return 0.0;
     }
-    final producsRepository = ref.read(productsRepositoryProvider);
     return cart.items.entries
         // first extract quantity * price for each item
         .map((entry) =>
             entry.value * // quantity
-            producsRepository.getProduct(entry.key)!.price) // price
+            fakeProducsRepository.getProduct(entry.key)!.price) // price
         // then add them up
         .reduce((value, element) => value + element);
   }
@@ -75,5 +80,11 @@ class FakeCheckoutService {
 
 @riverpod
 FakeCheckoutService checkoutService(CheckoutServiceRef ref) {
-  return FakeCheckoutService(ref);
+  return FakeCheckoutService(
+    authRepository: ref.watch(authRepositoryProvider),
+    remoteCartRepository: ref.watch(remoteCartRepositoryProvider),
+    fakeOrdersRepository: ref.watch(ordersRepositoryProvider),
+    fakeProducsRepository: ref.watch(productsRepositoryProvider),
+    currentDateBuilder: () => DateTime.now(),
+  );
 }

@@ -1,5 +1,5 @@
 name: ecommerce_app
-description: Flutter eCommerce app
+description: Flutter eCommerce app (part of the Flutter & Firebase Masterclass)
 
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'

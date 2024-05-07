@@ -1,16 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fake_reviews_repository.dart';
+part of 'reviews_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$reviewsRepositoryHash() => r'8a69281fa37026cd50057faf754621a4e46629e5';
+String _$reviewsRepositoryHash() => r'b29b6afc5319899c563deb41116d664b6fda1994';
 
 /// See also [reviewsRepository].
 @ProviderFor(reviewsRepository)
-final reviewsRepositoryProvider = Provider<FakeReviewsRepository>.internal(
+final reviewsRepositoryProvider = Provider<ReviewsRepository>.internal(
   reviewsRepository,
   name: r'reviewsRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,8 +20,8 @@ final reviewsRepositoryProvider = Provider<FakeReviewsRepository>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef ReviewsRepositoryRef = ProviderRef<FakeReviewsRepository>;
-String _$productReviewsHash() => r'a406f54f708a91b59663ad194a30c08533f20ca8';
+typedef ReviewsRepositoryRef = ProviderRef<ReviewsRepository>;
+String _$productReviewsHash() => r'7fafee2f2b462fbd7617166d5d8b9e44f4106551';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -55,10 +55,10 @@ class ProductReviewsFamily extends Family<AsyncValue<List<Review>>> {
 
   /// See also [productReviews].
   ProductReviewsProvider call(
-    String id,
+    String productId,
   ) {
     return ProductReviewsProvider(
-      id,
+      productId,
     );
   }
 
@@ -67,7 +67,7 @@ class ProductReviewsFamily extends Family<AsyncValue<List<Review>>> {
     covariant ProductReviewsProvider provider,
   ) {
     return call(
-      provider.id,
+      provider.productId,
     );
   }
 
@@ -90,11 +90,11 @@ class ProductReviewsFamily extends Family<AsyncValue<List<Review>>> {
 class ProductReviewsProvider extends AutoDisposeStreamProvider<List<Review>> {
   /// See also [productReviews].
   ProductReviewsProvider(
-    String id,
+    String productId,
   ) : this._internal(
           (ref) => productReviews(
             ref as ProductReviewsRef,
-            id,
+            productId,
           ),
           from: productReviewsProvider,
           name: r'productReviewsProvider',
@@ -105,7 +105,7 @@ class ProductReviewsProvider extends AutoDisposeStreamProvider<List<Review>> {
           dependencies: ProductReviewsFamily._dependencies,
           allTransitiveDependencies:
               ProductReviewsFamily._allTransitiveDependencies,
-          id: id,
+          productId: productId,
         );
 
   ProductReviewsProvider._internal(
@@ -115,10 +115,10 @@ class ProductReviewsProvider extends AutoDisposeStreamProvider<List<Review>> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.id,
+    required this.productId,
   }) : super.internal();
 
-  final String id;
+  final String productId;
 
   @override
   Override overrideWith(
@@ -133,7 +133,7 @@ class ProductReviewsProvider extends AutoDisposeStreamProvider<List<Review>> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        id: id,
+        productId: productId,
       ),
     );
   }
@@ -145,21 +145,21 @@ class ProductReviewsProvider extends AutoDisposeStreamProvider<List<Review>> {
 
   @override
   bool operator ==(Object other) {
-    return other is ProductReviewsProvider && other.id == id;
+    return other is ProductReviewsProvider && other.productId == productId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, id.hashCode);
+    hash = _SystemHash.combine(hash, productId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin ProductReviewsRef on AutoDisposeStreamProviderRef<List<Review>> {
-  /// The parameter `id` of this provider.
-  String get id;
+  /// The parameter `productId` of this provider.
+  String get productId;
 }
 
 class _ProductReviewsProviderElement
@@ -168,7 +168,7 @@ class _ProductReviewsProviderElement
   _ProductReviewsProviderElement(super.provider);
 
   @override
-  String get id => (origin as ProductReviewsProvider).id;
+  String get productId => (origin as ProductReviewsProvider).productId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

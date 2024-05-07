@@ -1,15 +1,18 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'dart:async';
 
-import '../../application/fake_checkout_service.dart';
+import 'package:ecommerce_app/src/features/checkout/application/checkout_service.dart';
+import 'package:ecommerce_app/src/utils/notifier_mounted.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'payment_button_controller.g.dart';
 
 @riverpod
-class PaymentButtonController extends _$PaymentButtonController {
-  bool mounted = true;
+class PaymentButtonController extends _$PaymentButtonController
+    with NotifierMounted {
   @override
   FutureOr<void> build() {
-    ref.onDispose(() => mounted = false);
+    ref.onDispose(setUnmounted);
+    // nothing to do
   }
 
   Future<void> pay() async {

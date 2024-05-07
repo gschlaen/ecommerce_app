@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/src/features/reviews/application/fake_reviews_service.dart';
+import 'package:ecommerce_app/src/features/reviews/application/reviews_service.dart';
 import 'package:ecommerce_app/src/features/reviews/domain/review.dart';
 import 'package:ecommerce_app/src/features/reviews/presentation/leave_review_screen/leave_review_controller.dart';
 import 'package:ecommerce_app/src/utils/current_date_provider.dart';
@@ -47,7 +47,7 @@ void main() {
       final listener = Listener<AsyncValue<void>>();
       container.listen(
         leaveReviewControllerProvider,
-        listener,
+        listener.call,
         fireImmediately: true,
       );
       const data = AsyncData<void>(null);
@@ -86,7 +86,7 @@ void main() {
       final listener = Listener<AsyncValue<void>>();
       container.listen(
         leaveReviewControllerProvider,
-        listener,
+        listener.call,
         fireImmediately: true,
       );
       const data = AsyncData<void>(null);
@@ -103,7 +103,8 @@ void main() {
       // verify
       verifyInOrder([
         () => listener(data, any(that: isA<AsyncLoading>())),
-        () => listener(any(that: isA<AsyncLoading>()), any(that: isA<AsyncError>())),
+        () => listener(
+            any(that: isA<AsyncLoading>()), any(that: isA<AsyncError>())),
       ]);
       verifyNoMoreInteractions(listener);
       verify(() => reviewsService.submitReview(
@@ -125,7 +126,7 @@ void main() {
       final listener = Listener<AsyncValue<void>>();
       container.listen(
         leaveReviewControllerProvider,
-        listener,
+        listener.call,
         fireImmediately: true,
       );
       const data = AsyncData<void>(null);

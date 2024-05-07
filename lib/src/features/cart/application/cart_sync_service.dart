@@ -1,17 +1,16 @@
 import 'dart:math';
 
+import 'package:ecommerce_app/src/exceptions/error_logger.dart';
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
+import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
+import 'package:ecommerce_app/src/features/cart/data/local/local_cart_repository.dart';
+import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_repository.dart';
+import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
+import 'package:ecommerce_app/src/features/cart/domain/item.dart';
+import 'package:ecommerce_app/src/features/cart/domain/mutable_cart.dart';
+import 'package:ecommerce_app/src/features/products/data/products_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../exceptions/error_logger.dart';
-import '../../authentication/data/fake_auth_repository.dart';
-import '../../authentication/domain/app_user.dart';
-import '../../products/data/fake_products_repository.dart';
-import '../data/local/local_cart_repository.dart';
-import '../data/remote/fake_remote_cart_repository.dart';
-import '../domain/cart.dart';
-import '../domain/item.dart';
-import '../domain/mutable_cart.dart';
 
 part 'cart_sync_service.g.dart';
 
@@ -34,7 +33,7 @@ class CartSyncService {
 
   /// moves all items from the local to the remote cart taking into account the
   /// available quantities
-  Future<void> _moveItemsToRemoteCart(String uid) async {
+  Future<void> _moveItemsToRemoteCart(UserID uid) async {
     try {
       // Get the local cart data
       final localCartRepository = ref.read(localCartRepositoryProvider);
@@ -47,9 +46,9 @@ class CartSyncService {
             await _getLocalItemsToAdd(localCart, remoteCart);
         // Add all the local items to the remote cart
         final updatedRemoteCart = remoteCart.addItems(localItemsToAdd);
-        // Write the updated remote cart data to the repositorie
+        // Write the updated remote cart data to the repository
         await remoteCartRepository.setCart(uid, updatedRemoteCart);
-        // remove all items from the local cart
+        // Remove all items from the local cart
         await localCartRepository.setCart(const Cart());
       }
     } catch (e, st) {
@@ -60,20 +59,21 @@ class CartSyncService {
   Future<List<Item>> _getLocalItemsToAdd(
       Cart localCart, Cart remoteCart) async {
     // Get the list of products (needed to read the available quantities)
-    final productRepository = ref.read(productsRepositoryProvider);
-    final products = await productRepository.fetchProductsList();
+    final productsRepository = ref.read(productsRepositoryProvider);
+    final products = await productsRepository.fetchProductsList();
     // Figure out which items need to be added
     final localItemsToAdd = <Item>[];
     for (final localItem in localCart.items.entries) {
       final productId = localItem.key;
       final localQuantity = localItem.value;
-      // Get the quantity for the corresponding item in the remote cart
+      // get the quantity for the corresponding item in the remote cart
       final remoteQuantity = remoteCart.items[productId] ?? 0;
-      // Get the corrresponding product to know de available quantity
       final product = products.firstWhere((product) => product.id == productId);
       // Cap the quantity of each item to the available quantity
-      final cappedLocalQuantity =
-          min(localQuantity, product.availableQuantity - remoteQuantity);
+      final cappedLocalQuantity = min(
+        localQuantity,
+        product.availableQuantity - remoteQuantity,
+      );
       // if the capped quantity is > 0, add to the list of items to add
       if (cappedLocalQuantity > 0) {
         localItemsToAdd
@@ -84,6 +84,7 @@ class CartSyncService {
   }
 }
 
+// * Using keepAlive since this should live for the entire app lifecycle
 @Riverpod(keepAlive: true)
 CartSyncService cartSyncService(CartSyncServiceRef ref) {
   return CartSyncService(ref);

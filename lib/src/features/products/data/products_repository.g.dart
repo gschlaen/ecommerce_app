@@ -1,17 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fake_products_repository.dart';
+part of 'products_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
 String _$productsRepositoryHash() =>
-    r'5d9a16e62b8afeaf937c6cf4a1a10eb76654ba80';
+    r'4eb5ca8bd8c8cda02102f34c914020dd6581728b';
 
 /// See also [productsRepository].
 @ProviderFor(productsRepository)
-final productsRepositoryProvider = Provider<FakeProductsRepository>.internal(
+final productsRepositoryProvider = Provider<ProductsRepository>.internal(
   productsRepository,
   name: r'productsRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,7 +21,7 @@ final productsRepositoryProvider = Provider<FakeProductsRepository>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef ProductsRepositoryRef = ProviderRef<FakeProductsRepository>;
+typedef ProductsRepositoryRef = ProviderRef<ProductsRepository>;
 String _$productsListStreamHash() =>
     r'6ce4881c188ad3ff4e1f795150e00decd5aa2fa0';
 

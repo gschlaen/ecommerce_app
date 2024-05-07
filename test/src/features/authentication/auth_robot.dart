@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/src/common_widgets/alert_dialogs.dart';
 import 'package:ecommerce_app/src/common_widgets/custom_text_button.dart';
 import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/account/account_screen.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
@@ -29,6 +30,7 @@ class AuthRobot {
     return tester.pumpWidget(
       ProviderScope(
         overrides: [
+          // ignore: scoped_providers_should_specify_dependencies
           authRepositoryProvider.overrideWithValue(authRepository),
         ],
         child: MaterialApp(
@@ -88,6 +90,7 @@ class AuthRobot {
 
   Future<void> enterAndSubmitEmailAndPassword() async {
     await enterEmail('test@test.com');
+    await tester.pump();
     await enterPassword('test1234');
     await tapEmailAndPasswordSubmitButton();
   }
@@ -99,14 +102,12 @@ class AuthRobot {
     await tester.pumpAndSettle();
   }
 
-  Future<void> pupmAccountScreen({FakeAuthRepository? authRepository}) async {
+  Future<void> pumpAccountScreen({FakeAuthRepository? authRepository}) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           if (authRepository != null)
-            authRepositoryProvider.overrideWithValue(
-              authRepository,
-            )
+            authRepositoryProvider.overrideWithValue(authRepository)
         ],
         child: const MaterialApp(
           home: AccountScreen(),
@@ -128,9 +129,9 @@ class AuthRobot {
   }
 
   Future<void> tapCancelButton() async {
-    final cancelButtom = find.text('Cancel');
-    expect(cancelButtom, findsOneWidget);
-    await tester.tap(cancelButtom);
+    final cancelButton = find.text('Cancel');
+    expect(cancelButton, findsOneWidget);
+    await tester.tap(cancelButton);
     await tester.pump();
   }
 

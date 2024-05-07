@@ -1,5 +1,5 @@
 @Timeout(Duration(milliseconds: 500))
-import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_controller.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,14 +39,15 @@ void main() {
       final listener = Listener<AsyncValue<void>>();
       container.listen(
         emailPasswordSignInControllerProvider,
-        listener,
+        listener.call,
         fireImmediately: true,
       );
       const data = AsyncData<void>(null);
       // verify initial value from build method
       verify(() => listener(null, data));
       // run
-      final controller = container.read(emailPasswordSignInControllerProvider.notifier);
+      final controller =
+          container.read(emailPasswordSignInControllerProvider.notifier);
       final result = await controller.submit(
         email: testEmail,
         password: testPassword,
@@ -74,13 +75,14 @@ void main() {
       final listener = Listener<AsyncValue<void>>();
       container.listen(
         emailPasswordSignInControllerProvider,
-        listener,
+        listener.call,
         fireImmediately: true,
       );
       // verify initial value from build method
       verify(() => listener(null, const AsyncData<void>(null)));
       // run
-      final controller = container.read(emailPasswordSignInControllerProvider.notifier);
+      final controller =
+          container.read(emailPasswordSignInControllerProvider.notifier);
       final result = await controller.submit(
         email: testEmail,
         password: testPassword,
@@ -90,9 +92,11 @@ void main() {
       expect(result, false);
       verifyInOrder([
         // set loading state
-        () => listener(const AsyncData<void>(null), any(that: isA<AsyncLoading>())),
+        () => listener(
+            const AsyncData<void>(null), any(that: isA<AsyncLoading>())),
         // error when complete
-        () => listener(any(that: isA<AsyncLoading>()), any(that: isA<AsyncError>())),
+        () => listener(
+            any(that: isA<AsyncLoading>()), any(that: isA<AsyncError>())),
       ]);
     });
   });

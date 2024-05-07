@@ -1,11 +1,10 @@
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
+import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
+import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
+import 'package:ecommerce_app/src/features/checkout/presentation/payment/payment_page.dart';
+import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../localization/string_hardcoded.dart';
-import '../../../authentication/data/fake_auth_repository.dart';
-import '../../../authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
-import '../../../authentication/presentation/sign_in/email_password_sign_in_screen.dart';
-import '../payment/payment_page.dart';
 
 /// The two sub-routes that are presented as part of the checkout flow.
 enum CheckoutSubRoute { register, payment }
@@ -54,7 +53,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     // map subRoute to address
-    final title = _subRoute == CheckoutSubRoute.register ? 'Register'.hardcoded : 'Payment'.hardcoded;
+    final title = _subRoute == CheckoutSubRoute.register
+        ? 'Register'.hardcoded
+        : 'Payment'.hardcoded;
     // * Return a Scaffold with a PageView containing the 2 pages.
     // * This allows for a nice scroll animation when switching between pages.
     // * Note: only the currently active page will be visible.

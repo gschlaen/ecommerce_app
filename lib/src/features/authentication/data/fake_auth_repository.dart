@@ -1,27 +1,27 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:ecommerce_app/src/exceptions/app_exception.dart';
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
+import 'package:ecommerce_app/src/features/authentication/data/fake_app_user.dart';
+import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
+import 'package:ecommerce_app/src/utils/delay.dart';
+import 'package:ecommerce_app/src/utils/in_memory_store.dart';
 
-import '../../../exceptions/app_exception.dart';
-import '../../../utils/delay.dart';
-import '../../../utils/in_memory_store.dart';
-import '../domain/app_user.dart';
-import '../domain/fake_app_user.dart';
-
-part 'fake_auth_repository.g.dart';
-
-class FakeAuthRepository {
+class FakeAuthRepository implements AuthRepository {
   FakeAuthRepository({this.addDelay = true});
   final bool addDelay;
   final _authState = InMemoryStore<AppUser?>(null);
 
+  @override
   Stream<AppUser?> authStateChanges() => _authState.stream;
+  @override
   AppUser? get currentUser => _authState.value;
 
-  // List to keep track of all user accounts
+  // List to keep track of all usePorderr accounts
   final List<FakeAppUser> _users = [];
 
+  @override
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     await delay(addDelay);
-    // check the given credentials against each registered user
+    // check the given credentials agains each registered user
     for (final u in _users) {
       // matching email and password
       if (u.email == email && u.password == password) {
@@ -36,6 +36,7 @@ class FakeAuthRepository {
     throw UserNotFoundException();
   }
 
+  @override
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
     await delay(addDelay);
@@ -53,6 +54,7 @@ class FakeAuthRepository {
     _createNewUser(email, password);
   }
 
+  @override
   Future<void> signOut() async {
     _authState.value = null;
   }
@@ -71,17 +73,4 @@ class FakeAuthRepository {
     // update the auth state
     _authState.value = user;
   }
-}
-
-@Riverpod(keepAlive: true)
-FakeAuthRepository authRepository(AuthRepositoryRef ref) {
-  final auth = FakeAuthRepository();
-  ref.onDispose(() => auth.dispose());
-  return auth;
-}
-
-@Riverpod(keepAlive: true)
-Stream<AppUser?> authStateChanges(AuthStateChangesRef ref) {
-  final authRepository = ref.watch(authRepositoryProvider);
-  return authRepository.authStateChanges();
 }

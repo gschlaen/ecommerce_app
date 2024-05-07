@@ -1,19 +1,18 @@
 import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
-import 'package:ecommerce_app/src/features/reviews/application/fake_reviews_service.dart';
+import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
+import 'package:ecommerce_app/src/common_widgets/responsive_center.dart';
+import 'package:ecommerce_app/src/constants/app_sizes.dart';
+import 'package:ecommerce_app/src/constants/breakpoints.dart';
+import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import 'package:ecommerce_app/src/features/reviews/application/reviews_service.dart';
+import 'package:ecommerce_app/src/features/reviews/domain/review.dart';
+import 'package:ecommerce_app/src/features/reviews/presentation/leave_review_screen/leave_review_controller.dart';
+import 'package:ecommerce_app/src/features/reviews/presentation/product_reviews/product_rating_bar.dart';
+import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../common_widgets/primary_button.dart';
-import '../../../../common_widgets/responsive_center.dart';
-import '../../../../constants/app_sizes.dart';
-import '../../../../constants/breakpoints.dart';
-import '../../../../localization/string_hardcoded.dart';
-import '../../../../utils/async_value_ui.dart';
-import '../../../products/domain/product.dart';
-import '../../domain/review.dart';
-import '../product_reviews/product_rating_bar.dart';
-import 'leave_review_controller.dart';
 
 class LeaveReviewScreen extends StatelessWidget {
   const LeaveReviewScreen({super.key, required this.productId});
@@ -33,7 +32,8 @@ class LeaveReviewScreen extends StatelessWidget {
             final reviewValue = ref.watch(userReviewFutureProvider(productId));
             return AsyncValueWidget<Review?>(
               value: reviewValue,
-              data: (review) => LeaveReviewForm(productId: productId, review: review),
+              data: (review) =>
+                  LeaveReviewForm(productId: productId, review: review),
             );
           },
         ),
@@ -47,6 +47,7 @@ class LeaveReviewForm extends ConsumerStatefulWidget {
   final ProductID productId;
   final Review? review;
 
+  // * Keys for testing using find.byKey()
   static const reviewCommentKey = Key('reviewComment');
 
   @override
@@ -69,6 +70,13 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
   }
 
   @override
+  void dispose() {
+    // * TextEditingControllers should be always disposed
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue>(
       leaveReviewControllerProvider,
@@ -80,7 +88,7 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
       children: [
         if (widget.review != null) ...[
           Text(
-            'You reviewed this product before. You can edit your review.'.hardcoded,
+            'You reviewed this product before. Submit again to edit.'.hardcoded,
             textAlign: TextAlign.center,
           ),
           gapH24,
@@ -108,13 +116,14 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
           isLoading: state.isLoading,
           onPressed: state.isLoading || _rating == 0
               ? null
-              : () => ref.read(leaveReviewControllerProvider.notifier).submitReview(
-                    previousReview: widget.review,
-                    productId: widget.productId,
-                    rating: _rating,
-                    comment: _controller.text,
-                    onSuccess: context.pop,
-                  ),
+              : () =>
+                  ref.read(leaveReviewControllerProvider.notifier).submitReview(
+                        previousReview: widget.review,
+                        productId: widget.productId,
+                        rating: _rating,
+                        comment: _controller.text,
+                        onSuccess: context.pop,
+                      ),
         )
       ],
     );

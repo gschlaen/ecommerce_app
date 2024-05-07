@@ -1,9 +1,8 @@
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
+import 'package:ecommerce_app/src/features/orders/data/orders_repository.dart';
+import 'package:ecommerce_app/src/features/orders/domain/order.dart';
+import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../authentication/data/fake_auth_repository.dart';
-import '../../products/domain/product.dart';
-import '../data/fake_orders_repository.dart';
-import '../domain/order.dart';
 
 part 'user_orders_provider.g.dart';
 
@@ -23,12 +22,12 @@ Stream<List<Order>> userOrders(UserOrdersRef ref) {
 /// Check if a product was previously purchased by the user
 @riverpod
 Stream<List<Order>> matchingUserOrders(
-    MatchingUserOrdersRef ref, ProductID id) {
+    MatchingUserOrdersRef ref, ProductID productId) {
   final user = ref.watch(authStateChangesProvider).value;
   if (user != null) {
     return ref
         .watch(ordersRepositoryProvider)
-        .watchUserOrders(user.uid, productId: id);
+        .watchUserOrders(user.uid, productId: productId);
   } else {
     // If the user is null, return an empty list (no orders)
     return Stream.value([]);

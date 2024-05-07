@@ -1,19 +1,18 @@
 import 'dart:math';
 
+import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
+import 'package:ecommerce_app/src/common_widgets/custom_image.dart';
+import 'package:ecommerce_app/src/common_widgets/responsive_two_column_layout.dart';
+import 'package:ecommerce_app/src/constants/app_sizes.dart';
+import 'package:ecommerce_app/src/features/cart/domain/item.dart';
+import 'package:ecommerce_app/src/features/cart/presentation/item_quantity_selector.dart';
+import 'package:ecommerce_app/src/features/cart/presentation/shopping_cart/shopping_cart_screen_controller.dart';
+import 'package:ecommerce_app/src/features/products/data/products_repository.dart';
+import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../common_widgets/async_value_widget.dart';
-import '../../../../common_widgets/custom_image.dart';
-import '../../../../common_widgets/item_quantity_selector.dart';
-import '../../../../common_widgets/responsive_two_column_layout.dart';
-import '../../../../constants/app_sizes.dart';
-import '../../../../localization/string_hardcoded.dart';
-import '../../../../utils/currency_formatter.dart';
-import '../../../products/data/fake_products_repository.dart';
-import '../../../products/domain/product.dart';
-import '../../domain/item.dart';
-import 'shopping_cart_screen_controller.dart';
 
 /// Shows a shopping cart item (or loading/error UI if needed)
 class ShoppingCartItem extends ConsumerWidget {
@@ -73,7 +72,8 @@ class ShoppingCartItemContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final priceFormatted = ref.watch(currencyFormatterProvider).format(product.price);
+    final priceFormatted =
+        ref.watch(currencyFormatterProvider).format(product.price);
     return ResponsiveTwoColumnLayout(
       startFlex: 1,
       endFlex: 2,
@@ -85,7 +85,8 @@ class ShoppingCartItemContents extends ConsumerWidget {
         children: [
           Text(product.title, style: Theme.of(context).textTheme.headlineSmall),
           gapH24,
-          Text(priceFormatted, style: Theme.of(context).textTheme.headlineSmall),
+          Text(priceFormatted,
+              style: Theme.of(context).textTheme.headlineSmall),
           gapH24,
           isEditable
               // show the quantity selector and a delete button
@@ -134,18 +135,18 @@ class EditOrRemoveItemWidget extends ConsumerWidget {
           itemIndex: itemIndex,
           onChanged: state.isLoading
               ? null
-              : (quantity) => {
-                    ref.read(shoppingCartScreenControllerProvider.notifier).updateItemQuantity(item.productId, quantity),
-                  },
+              : (quantity) => ref
+                  .read(shoppingCartScreenControllerProvider.notifier)
+                  .updateItemQuantity(item.productId, quantity),
         ),
         IconButton(
           key: deleteKey(itemIndex),
           icon: Icon(Icons.delete, color: Colors.red[700]),
           onPressed: state.isLoading
               ? null
-              : () => {
-                    ref.read(shoppingCartScreenControllerProvider.notifier).removeItemById(item.productId),
-                  },
+              : () => ref
+                  .read(shoppingCartScreenControllerProvider.notifier)
+                  .removeItemById(item.productId),
         ),
         const Spacer(),
       ],

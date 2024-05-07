@@ -1,16 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fake_auth_repository.dart';
+part of 'auth_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authRepositoryHash() => r'f94389a2b4b189c4aeaf4b993818ca745215d122';
+String _$authRepositoryHash() => r'932433ad2d7f5f188b30576ffe157fcc0dec4832';
 
 /// See also [authRepository].
 @ProviderFor(authRepository)
-final authRepositoryProvider = Provider<FakeAuthRepository>.internal(
+final authRepositoryProvider = Provider<AuthRepository>.internal(
   authRepository,
   name: r'authRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,7 +20,7 @@ final authRepositoryProvider = Provider<FakeAuthRepository>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef AuthRepositoryRef = ProviderRef<FakeAuthRepository>;
+typedef AuthRepositoryRef = ProviderRef<AuthRepository>;
 String _$authStateChangesHash() => r'70d96078e41cd44270b2118f16bcbed842f33064';
 
 /// See also [authStateChanges].

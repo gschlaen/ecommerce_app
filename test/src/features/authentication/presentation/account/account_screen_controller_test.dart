@@ -1,5 +1,5 @@
-@Timeout(Duration(microseconds: 500))
-import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
+@Timeout(Duration(milliseconds: 500))
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/account/account_screen_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,13 +18,12 @@ void main() {
     return container;
   }
 
-  setUp(() {
+  setUpAll(() {
     registerFallbackValue(const AsyncLoading<int>());
   });
 
   group('AccountScreenController', () {
     test('initial state is AsyncData', () {
-      // setup
       final authRepository = MockAuthRepository();
       // create the ProviderContainer with the mock auth repository
       final container = makeProviderContainer(authRepository);
@@ -33,7 +32,7 @@ void main() {
       // listen to the provider and call [listener] whenever its value changes
       container.listen(
         accountScreenControllerProvider,
-        listener,
+        listener.call,
         fireImmediately: true,
       );
       // verify
@@ -59,7 +58,7 @@ void main() {
       // listen to the provider and call [listener] whenever its value changes
       container.listen(
         accountScreenControllerProvider,
-        listener,
+        listener.call,
         fireImmediately: true,
       );
       // sto
@@ -82,11 +81,10 @@ void main() {
       verifyNoMoreInteractions(listener);
       verify(authRepository.signOut).called(1);
     });
-
     test('signOut failure', () async {
       // setup
       final authRepository = MockAuthRepository();
-      // stub method to return exception
+      // stub method to return success
       final exception = Exception('Connection failed');
       when(authRepository.signOut).thenThrow(exception);
       // create the ProviderContainer with the mock auth repository
@@ -96,7 +94,7 @@ void main() {
       // listen to the provider and call [listener] whenever its value changes
       container.listen(
         accountScreenControllerProvider,
-        listener,
+        listener.call,
         fireImmediately: true,
       );
       const data = AsyncData<void>(null);

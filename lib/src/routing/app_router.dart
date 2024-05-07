@@ -1,22 +1,24 @@
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
+import 'package:ecommerce_app/src/features/authentication/presentation/account/account_screen.dart';
+import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
+import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
+import 'package:ecommerce_app/src/features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
+import 'package:ecommerce_app/src/features/checkout/presentation/checkout_screen/checkout_screen.dart';
+import 'package:ecommerce_app/src/features/orders/presentation/orders_list/orders_list_screen.dart';
+import 'package:ecommerce_app/src/features/products/presentation/product_screen/product_screen.dart';
+import 'package:ecommerce_app/src/features/products/presentation/products_list/products_list_screen.dart';
+import 'package:ecommerce_app/src/features/reviews/presentation/leave_review_screen/leave_review_screen.dart';
+import 'package:ecommerce_app/src/routing/go_router_refresh_stream.dart';
+import 'package:ecommerce_app/src/routing/not_found_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../features/authentication/data/fake_auth_repository.dart';
-import '../features/authentication/presentation/account/account_screen.dart';
-import '../features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
-import '../features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
-import '../features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
-import '../features/checkout/presentation/checkout_screen/checkout_screen.dart';
-import '../features/orders/presentation/orders_list/orders_list_screen.dart';
-import '../features/products/presentation/product_screen/product_screen.dart';
-import '../features/products/presentation/products_list/products_list_screen.dart';
-import '../features/reviews/presentation/leave_review_screen/leave_review_screen.dart';
-import 'go_router_refresh_stream.dart';
-import 'not_found_screen.dart';
-
-part 'app_router.g.dart';
-
+/// All the supported routes in the app.
+/// By using an enum, we route by name using this syntax:
+/// ```dart
+/// context.goNamed(AppRoute.orders.name)
+/// ```
 enum AppRoute {
   home,
   product,
@@ -28,14 +30,16 @@ enum AppRoute {
   signIn,
 }
 
-@Riverpod(keepAlive: true)
-GoRouter goRouter(GoRouterRef ref) {
+/// returns the GoRouter instance that defines all the routes in the app
+final goRouterProvider = Provider<GoRouter>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return GoRouter(
     initialLocation: '/',
-    debugLogDiagnostics: false,
-    redirect: (context, state) {
-      final isLoggedIn = authRepository.currentUser != null;
+    debugLogDiagnostics: true,
+    // * redirect logic based on the authentication state
+    redirect: (context, state) async {
+      final user = authRepository.currentUser;
+      final isLoggedIn = user != null;
       final path = state.uri.path;
       if (isLoggedIn) {
         if (path == '/signIn') {
@@ -56,41 +60,44 @@ GoRouter goRouter(GoRouterRef ref) {
         builder: (context, state) => const ProductsListScreen(),
         routes: [
           GoRoute(
-              path: 'product/:id',
-              name: AppRoute.product.name,
-              builder: (context, state) {
-                final productId = state.pathParameters['id']!;
-                return ProductScreen(productId: productId);
-              },
-              routes: [
-                GoRoute(
-                    path: 'review',
-                    name: AppRoute.leaveReview.name,
-                    pageBuilder: (context, state) {
-                      final productId = state.pathParameters['id']!;
-                      return MaterialPage(
-                        fullscreenDialog: true,
-                        child: LeaveReviewScreen(productId: productId),
-                      );
-                    }),
-              ]),
+            path: 'product/:id',
+            name: AppRoute.product.name,
+            builder: (context, state) {
+              final productId = state.pathParameters['id']!;
+              return ProductScreen(productId: productId);
+            },
+            routes: [
+              GoRoute(
+                path: 'review',
+                name: AppRoute.leaveReview.name,
+                pageBuilder: (context, state) {
+                  final productId = state.pathParameters['id']!;
+                  return MaterialPage(
+                    fullscreenDialog: true,
+                    child: LeaveReviewScreen(productId: productId),
+                  );
+                },
+              ),
+            ],
+          ),
           GoRoute(
-              path: 'cart',
-              name: AppRoute.cart.name,
-              pageBuilder: (context, state) => const MaterialPage(
-                    fullscreenDialog: true,
-                    child: ShoppingCartScreen(),
-                  ),
-              routes: [
-                GoRoute(
-                  path: 'checkout',
-                  name: AppRoute.checkout.name,
-                  pageBuilder: (context, state) => const MaterialPage(
-                    fullscreenDialog: true,
-                    child: CheckoutScreen(),
-                  ),
+            path: 'cart',
+            name: AppRoute.cart.name,
+            pageBuilder: (context, state) => const MaterialPage(
+              fullscreenDialog: true,
+              child: ShoppingCartScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'checkout',
+                name: AppRoute.checkout.name,
+                pageBuilder: (context, state) => const MaterialPage(
+                  fullscreenDialog: true,
+                  child: CheckoutScreen(),
                 ),
-              ]),
+              ),
+            ],
+          ),
           GoRoute(
             path: 'orders',
             name: AppRoute.orders.name,
@@ -122,4 +129,4 @@ GoRouter goRouter(GoRouterRef ref) {
     ],
     errorBuilder: (context, state) => const NotFoundScreen(),
   );
-}
+});

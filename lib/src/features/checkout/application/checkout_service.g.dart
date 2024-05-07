@@ -1,27 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fake_remote_cart_repository.dart';
+part of 'checkout_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$remoteCartRepositoryHash() =>
-    r'90ab3b0fbaab687d952757339bdafabb8c42f947';
+String _$checkoutServiceHash() => r'700adb2476906740982e17cd0fbef5ed74470284';
 
-/// See also [remoteCartRepository].
-@ProviderFor(remoteCartRepository)
-final remoteCartRepositoryProvider =
-    Provider<FakeRemoteCartRepository>.internal(
-  remoteCartRepository,
-  name: r'remoteCartRepositoryProvider',
+/// See also [checkoutService].
+@ProviderFor(checkoutService)
+final checkoutServiceProvider = AutoDisposeProvider<CheckoutService>.internal(
+  checkoutService,
+  name: r'checkoutServiceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$remoteCartRepositoryHash,
+      : _$checkoutServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef RemoteCartRepositoryRef = ProviderRef<FakeRemoteCartRepository>;
+typedef CheckoutServiceRef = AutoDisposeProviderRef<CheckoutService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

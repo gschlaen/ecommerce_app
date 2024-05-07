@@ -1,14 +1,13 @@
+import 'package:ecommerce_app/src/common_widgets/action_text_button.dart';
+import 'package:ecommerce_app/src/common_widgets/alert_dialogs.dart';
+import 'package:ecommerce_app/src/common_widgets/responsive_center.dart';
+import 'package:ecommerce_app/src/constants/app_sizes.dart';
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
+import 'package:ecommerce_app/src/features/authentication/presentation/account/account_screen_controller.dart';
+import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../common_widgets/action_text_button.dart';
-import '../../../../common_widgets/alert_dialogs.dart';
-import '../../../../common_widgets/responsive_center.dart';
-import '../../../../constants/app_sizes.dart';
-import '../../../../localization/string_hardcoded.dart';
-import '../../../../utils/async_value_ui.dart';
-import '../../data/fake_auth_repository.dart';
-import 'account_screen_controller.dart';
 
 /// Simple account screen showing some user info and a logout button.
 class AccountScreen extends ConsumerWidget {
@@ -21,10 +20,11 @@ class AccountScreen extends ConsumerWidget {
       (_, state) => state.showAlertDialogOnError(context),
     );
     final state = ref.watch(accountScreenControllerProvider);
-
     return Scaffold(
       appBar: AppBar(
-        title: state.isLoading ? const Center(child: CircularProgressIndicator()) : Text('Account'.hardcoded),
+        title: state.isLoading
+            ? const CircularProgressIndicator()
+            : Text('Account'.hardcoded),
         actions: [
           ActionTextButton(
             text: 'Logout'.hardcoded,
@@ -38,12 +38,9 @@ class AccountScreen extends ConsumerWidget {
                       defaultActionText: 'Logout'.hardcoded,
                     );
                     if (logout == true) {
-                      /*final success = await*/
-                      ref.read(accountScreenControllerProvider.notifier).signOut();
-                      // Now is redirected by GoRouter refreshListenable
-                      // if (success) {
-                      //   Navigator.of(context).pop();
-                      // }
+                      ref
+                          .read(accountScreenControllerProvider.notifier)
+                          .signOut();
                     }
                   },
           ),
@@ -51,66 +48,34 @@ class AccountScreen extends ConsumerWidget {
       ),
       body: const ResponsiveCenter(
         padding: EdgeInsets.symmetric(horizontal: Sizes.p16),
-        child: UserDataTable(),
+        child: AccountScreenContents(),
       ),
     );
   }
 }
 
 /// Simple user data table showing the uid and email
-class UserDataTable extends ConsumerWidget {
-  const UserDataTable({super.key});
+class AccountScreenContents extends ConsumerWidget {
+  const AccountScreenContents({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final style = Theme.of(context).textTheme.titleSmall!;
-
     final user = ref.watch(authStateChangesProvider).value;
-    return DataTable(
-      columns: [
-        DataColumn(
-          label: Text(
-            'Field'.hardcoded,
-            style: style,
-          ),
-        ),
-        DataColumn(
-          label: Text(
-            'Value'.hardcoded,
-            style: style,
-          ),
-        ),
-      ],
-      rows: [
-        _makeDataRow(
-          'uid'.hardcoded,
-          user?.uid ?? '',
-          style,
-        ),
-        _makeDataRow(
-          'email'.hardcoded,
-          user?.email ?? '',
-          style,
-        ),
-      ],
-    );
-  }
+    if (user == null) {
+      return const SizedBox.shrink();
+    }
 
-  DataRow _makeDataRow(String name, String value, TextStyle style) {
-    return DataRow(
-      cells: [
-        DataCell(
-          Text(
-            name,
-            style: style,
-          ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          user.uid,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
-        DataCell(
-          Text(
-            value,
-            style: style,
-            maxLines: 2,
-          ),
+        gapH32,
+        Text(
+          user.email ?? '',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ],
     );

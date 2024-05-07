@@ -1,25 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fake_orders_repository.dart';
+part of 'remote_cart_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$ordersRepositoryHash() => r'c7c5986491943ae9308614b91187411a58f26781';
+String _$remoteCartRepositoryHash() =>
+    r'e5dc4789a9fffb8a1d41e1765d68e1bcffd67682';
 
-/// See also [ordersRepository].
-@ProviderFor(ordersRepository)
-final ordersRepositoryProvider = Provider<FakeOrdersRepository>.internal(
-  ordersRepository,
-  name: r'ordersRepositoryProvider',
+/// See also [remoteCartRepository].
+@ProviderFor(remoteCartRepository)
+final remoteCartRepositoryProvider = Provider<RemoteCartRepository>.internal(
+  remoteCartRepository,
+  name: r'remoteCartRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$ordersRepositoryHash,
+      : _$remoteCartRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef OrdersRepositoryRef = ProviderRef<FakeOrdersRepository>;
+typedef RemoteCartRepositoryRef = ProviderRef<RemoteCartRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -6,7 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../common_widgets/alert_dialogs.dart';
 import '../localization/string_hardcoded.dart';
 
+/// A helper [AsyncValue] extension to show an alert dialog on error
 extension AsyncValueUI on AsyncValue {
+  /// Show an alert dialog if the current [AsyncValue] has an error and the
+  /// state is not loading.
   void showAlertDialogOnError(BuildContext context) {
     if (!isLoading && hasError) {
       final message = _errorMessage(error);

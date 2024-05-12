@@ -1,9 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:equatable/equatable.dart';
+
 /// * The product identifier is an important concept and can have its own type.
 typedef ProductID = String;
 
 /// Class representing a product.
-class Product {
+class Product extends Equatable {
   const Product({
     required this.id,
     required this.imageUrl,
@@ -25,36 +26,29 @@ class Product {
   final double avgRating;
   final int numRatings;
 
-  @override
-  String toString() {
-    return 'Product(id: $id, imageUrl: $imageUrl, title: $title, description: $description, price: $price, availableQuantity: $availableQuantity, avgRating: $avgRating, numRatings: $numRatings)';
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      id: map['id'] as String,
+      imageUrl: map['imageUrl'] as String,
+      title: map['title'] ?? '',
+      description: map['description'] ?? '',
+      price: map['price']?.toDouble() ?? 0.0,
+      availableQuantity: map['availableQuantity']?.toInt() ?? 0,
+      avgRating: map['avgRating']?.toDouble() ?? 0.0,
+      numRatings: map['numRatings']?.toInt() ?? 0,
+    );
   }
 
-  @override
-  bool operator ==(covariant Product other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.imageUrl == imageUrl &&
-        other.title == title &&
-        other.description == description &&
-        other.price == price &&
-        other.availableQuantity == availableQuantity &&
-        other.avgRating == avgRating &&
-        other.numRatings == numRatings;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        imageUrl.hashCode ^
-        title.hashCode ^
-        description.hashCode ^
-        price.hashCode ^
-        availableQuantity.hashCode ^
-        avgRating.hashCode ^
-        numRatings.hashCode;
-  }
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'imageUrl': imageUrl,
+        'title': title,
+        'description': description,
+        'price': price,
+        'availableQuantity': availableQuantity,
+        'avgRating': avgRating,
+        'numRatings': numRatings,
+      };
 
   Product copyWith({
     ProductID? id,
@@ -77,4 +71,19 @@ class Product {
       numRatings: numRatings ?? this.numRatings,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        imageUrl,
+        title,
+        description,
+        price,
+        availableQuantity,
+        avgRating,
+        numRatings
+      ];
+
+  @override
+  bool? get stringify => true;
 }
